@@ -45,7 +45,9 @@ markertype      = 'o';
 linestyle       = '-';
 leglocation     = 'northwest';
 leg             = 'auto';
+errorcolor      = [0 0 0];
 vararginoptions(varargin,{'linewidth','markersize','errorwidth','markertype','linestyle',...
+                          'errorcolor',...
                           'leg','leglocation'});  
 
 %% 1. Setting structures used for figure manipulation
@@ -53,14 +55,28 @@ vararginoptions(varargin,{'linewidth','markersize','errorwidth','markertype','li
 CAT.facecolor   = [];
 CAT.linecolor   = [];
 CAT.patchcolor  = [];
+CAT.errorcolor  = [];
 CAT.linewidth   = [];
 CAT.markersize  = [];
 CAT.errorwidth  = [];
 CAT.markertype  = [];
 CAT.linestyle   = [];
 
-c_vars  = {'facecolor','linecolor','patchcolor','markerfill','markercolor'};
-vars    = {'linewidth','markersize','errorwidth','markertype','linestyle'};                  
+c_vars      = {'facecolor','linecolor','patchcolor','markerfill','markercolor'};
+vars        = {'linewidth','markersize','errorwidth','markertype','linestyle','errorcolor'};                  
+opt_colors  = {'errorcolor'};
+
+% check to see if defaults are to be used for optional colours or to match
+% style
+for i=1:length(opt_colors)
+    if isa(opt_colors{i},'char')
+        x = eval(opt_colors{i});
+        if strcmp(x,'match')==1       
+            eval(sprintf('%s=c;',opt_colors{i}));
+        end;    
+    end;
+end;
+
 
 what = {'set_group','set_children'};
 for w=1:length(what)

@@ -11,6 +11,7 @@ function save_figure(H,fname,varargin)
 %       'dpi'                  : dpi for saved image (300 default)
 %       'format'               : file format to save in (pdf is default)
 %       'rendering'            : which renderer is used (painters/opengl)
+%       'aa'                   : perform anti-aliasing (0/1)
 %       'style'                : style in which figure is saved.
 %                                this depends on the journal and preset
 %                                parameters in the code.
@@ -30,24 +31,23 @@ format      = 'pdf';
 rendering   = 'painters';
 ui          = 'noui';
 style       = 'none';
-vararginoptions(varargin,{'dpi','format','rendering','style'});  
+aa          = 0;
+vararginoptions(varargin,{'dpi','format','rendering','style','aa'});  
 
 %% 1. Setting up figure mode and saving figure
 set(H,'paperpositionmode',papermode);
 
 switch(style)
-    case 'none'
-        print(H,['-r',num2str(dpi)],['-d',format],['-',rendering],['-',ui],fname); 
     case 'brain_1col'               % single column, 90cm by 90cm
         paperposition = [0 0 9 9];   
         set(H,'paperposition',paperposition);
-        print(H,['-r',num2str(dpi)],['-d',format],['-',rendering],['-',ui],fname); 
     case 'brain_2col'               % two-column, 185cm by 90cm
         paperposition = [0 0 18.5 9];   
         set(H,'paperposition',paperposition);
-        print(H,['-r',num2str(dpi)],['-d',format],['-',rendering],['-',ui],fname); 
     case 'brain_2row'               % two row, two-column, 185cm by 185cm
         paperposition = [0 0 18.5 18.5];   
         set(H,'paperposition',paperposition);
-        print(H,['-r',num2str(dpi)],['-d',format],['-',rendering],['-',ui],fname);         
 end;
+
+%% 2. print figure to file
+print(H,['-r',num2str(dpi)],['-d',format],['-',rendering],['-',ui],fname); 

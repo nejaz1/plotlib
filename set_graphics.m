@@ -52,7 +52,7 @@ fontname        = 'myriadpro';
 ax              = 'square';
 fontunits       = 'points';
 vararginoptions(varargin,{'fontsize','fontname','title_fontsize','leg_fontsize','fontsize_all',...
-                          'xticklabel','yticklabel','xtick','ytick','xlim','ylim',...
+                          'xticklabel','yticklabel','xtick','ytick','xlim','ylim','axis'...
                           'xlabel','ylabel','title','ax','match','rotate_xtick'});  
 
 %% 1. Setting up which axis need to be processed
@@ -104,7 +104,7 @@ for hL=1:length(axisList)
             YLimMax     = max([YLimMax; get(h,'ylim')],[],1);
 
             % Setting ticks and tick labels
-            x = {'xticklabel','yticklabel','xtick','ytick','xlim','ylim'};
+            x = {'xticklabel','yticklabel','xtick','ytick','xlim','ylim','axis'};
             for i=1:length(x)
                 if exist(x{i},'var')
                     OPTS.GCA.(x{i}) = eval(x{i}); 
