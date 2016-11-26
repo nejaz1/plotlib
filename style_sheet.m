@@ -46,8 +46,9 @@ linestyle       = '-';
 leglocation     = 'northwest';
 leg             = 'auto';
 errorcolor      = [0 0 0];
+fillcolor       = [0 0 0];
 vararginoptions(varargin,{'linewidth','markersize','errorwidth','markertype','linestyle',...
-                          'errorcolor',...
+                          'errorcolor','fillcolor',...
                           'leg','leglocation'});  
 
 %% 1. Setting structures used for figure manipulation
@@ -63,8 +64,8 @@ CAT.markertype  = [];
 CAT.linestyle   = [];
 
 c_vars      = {'facecolor','linecolor','patchcolor','markerfill','markercolor'};
-vars        = {'linewidth','markersize','errorwidth','markertype','linestyle','errorcolor'};                  
-opt_colors  = {'errorcolor'};
+vars        = {'linewidth','markersize','errorwidth','markertype','linestyle','errorcolor','fillcolor'};                  
+opt_colors  = {'errorcolor','fillcolor'};
 
 % check to see if defaults are to be used for optional colours or to match
 % style

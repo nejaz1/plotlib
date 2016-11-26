@@ -47,6 +47,9 @@ switch(style)
     case 'brain_2row'               % two row, two-column, 185cm by 185cm
         paperposition = [0 0 18.5 18.5];   
         set(H,'paperposition',paperposition);
+    case 'brain_3row'               % two row, two-column, 185cm by 185cm
+        paperposition = [0 0 18.5 27];   
+        set(H,'paperposition',paperposition);        
 end;
 
 %% 2. print figure to file
