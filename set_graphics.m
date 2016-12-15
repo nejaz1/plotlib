@@ -111,11 +111,6 @@ for hL=1:length(axisList)
                 end;
             end;
             
-            % Rotating labels if necessary
-            if exist('rotate_xtick','var')
-                rotateticklabel(h,rotate_xtick);
-            end;
-
             % Setting up titles and labels
             x   = {'ylabel','xlabel','title'};
             for i=1:length(x)
@@ -130,6 +125,11 @@ for hL=1:length(axisList)
             if ~isempty(OPTS.GCA)
                 set(h,OPTS.GCA);       
             end;
+            
+            % Rotating labels if necessary
+            if exist('rotate_xtick','var')
+                rotateticklabel(h,rotate_xtick);
+            end;            
     end;
 end;
 
