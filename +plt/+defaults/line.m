@@ -1,6 +1,6 @@
 function varargout = line
 %% Description
-%   Defaults used for scatter plots
+%   Defaults used for line plots
 %   WARNING: changing values here will change default behaviour for plots
 %   where no style is provided
 %

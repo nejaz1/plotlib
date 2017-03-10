@@ -6,11 +6,12 @@ function varargout = plots
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
 
 % List of plots available in the library
-p       = {'line','bar','trace','scatter'};
+p       = {'line','bar','trace','scatter','drawline'};
 descr   = {'line plot',...
            'bar plot',...
            'trace plot',...
-           'scatter plot'};
+           'scatter plot',...
+           'draw a line'};
 
 if nargout==0
     fprintf('\nList of available plots\n-----------------------\n');

@@ -12,12 +12,16 @@ function varargout = makeUserOptions(options)
 % ejaz.naveed@gmail.com
 % 2/2017
 
-fname                       = fieldnames(options);
-N                           = 1:length(fname)*2;
-user_opt                    = cell(1,length(N));
-odd                         = mod(N,2);
+if ~isempty(options)
+    fname                       = fieldnames(options);
+    N                           = 1:length(fname)*2;
+    user_opt                    = cell(1,length(N));
+    odd                         = mod(N,2);
 
-user_opt(logical(odd))      = fname;
-user_opt(logical(1-odd))    = struct2cell(options);
+    user_opt(logical(odd))      = fname;
+    user_opt(logical(1-odd))    = struct2cell(options);
+else
+    user_opt = {};
+end;
 
 varargout = {user_opt};
