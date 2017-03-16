@@ -31,12 +31,17 @@ opt.legend.leglocation      = 'northeast';
 opt.display.xlabel          = '';
 opt.display.ylabel          = '';
 opt.display.title           = '';
+opt.display.panel_title     = '';
 opt.display.ax              = 'square';
 
+opt.font.fontname           = 'myriadpro';
+opt.font.fontunits          = 'points';
 opt.font.fontsize           = 12;
 opt.font.title_fontsize     = 14;
 opt.font.leg_fontsize       = 12;
-opt.font.fontname           = 'myriadpro';
-opt.font.fontunits          = 'points';
+opt.font.panel_fontsize     = 16;
+opt.font.panel_fontweight   = 'bold';
+opt.font.panel_horzalign    = 'right';
+opt.font.panel_vertalign    = 'baseline';
 
 varargout   = {opt};
