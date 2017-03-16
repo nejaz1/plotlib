@@ -12,10 +12,10 @@ sName   = getenv('PLTSTYLENAME');
 
 %   - if no environment variable set, use the default/name location
 if isempty(sName)
-    sName   = '$DEFAULT$';
+    sName   = 'default';
 end;
 if isempty(sFile)
-    sFile   = '$DEFAULT$';
+    sFile   = 'default';
 end;
 
 

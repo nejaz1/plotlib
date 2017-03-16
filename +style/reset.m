@@ -6,6 +6,6 @@ function reset
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
 
 %% 0. Get colour/plotting style requested
-setenv('PLTSTYLEFILE','$DEFAULT$');
-setenv('PLTSTYLENAME','$DEFAULT$');
+setenv('PLTSTYLEFILE','default');
+setenv('PLTSTYLENAME','default');
 

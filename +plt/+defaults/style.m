@@ -13,8 +13,8 @@ opt = [];
 switch(styID)
     case 'default'
         colours     = {'blue','green','red','black','lightgray','darkgray'};
-    case 'graysc'
-        colours     = {'black','lightgray','darkgray'};
+    case 'gray'
+        colours     = {'black','lightgray','darkgray','black','lightgray','darkgray'};
         opt.general.markertype  = {'o','v','^'};
         opt.general.linestyle   = {'-','-','-','--','--','--'};
 end;

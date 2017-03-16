@@ -67,5 +67,5 @@ if length(x)>1
         y1 = [YLIM(1), YLIM(2), YLIM(2), YLIM(1)];
         h  = patch(x1,y1,sty.general.errorcolor);
     end;
+    set (h,'FaceAlpha',opts.facealpha,'edgecolor',opts.edgecolor);
 end;    
-set (h,'FaceAlpha',opts.facealpha,'edgecolor',opts.edgecolor);

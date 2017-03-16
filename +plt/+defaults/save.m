@@ -8,8 +8,9 @@ function varargout = save(preset)
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
 
 %% 0. Define presets
-preset_name = {'1col','2col','2row','3row'};
+preset_name = {'1col','3/4row','1row','2row','3row'};
 preset_val  = {[0 0 9 9],...
+               [0 0 18.5 6.75],...    
                [0 0 18.5 9],...
                [0 0 18.5 18.5],...
                [0 0 18.5 27]};        
@@ -25,11 +26,15 @@ if nargin==0
     opt = [];
 else
     idx = find(strcmp(preset_name,preset));
+    c   = plt.defaults.colours('black');
     
     opt.save.preset         = preset_name{idx};
     opt.save.paperposition 	= preset_val{idx};    
     opt.save.dpi            = 300;
     opt.save.papermode      = 'manual';
+    opt.save.xcolor         = c;
+    opt.save.ycolor         = c;
+    opt.save.zcolor         = c;
     opt.save.format         = 'pdf';
     opt.save.rendering      = 'painters';
     opt.save.ui             = 'noui';

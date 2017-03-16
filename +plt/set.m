@@ -9,19 +9,10 @@ function set(H,varargin)
 %       If H is a handle to an axes, then options are applied to the axes only
 %   varargin: Format options. 
 %       In general: 'formating_option', value,... 
-%       'fontsize'              : size for text in the axis/figure
-%       'fontname'              : name of font for text in the axis/figure
-%       'fontunits'             : units in which fonts are specified
-%                                   {'points','centimeters'}
-%       'title_fontsize'        : font size for axis title
-%       'leg_fontsize'          : font size for legend entries
 %       'xtick'                 : tick markings on the x-axis
 %       'ytick'                 : tick markings on the y-axis
 %       'xticklabel'            : labels for the x-tick markings
 %       'yticklabel'            : labels for the y-tick markings
-%       'xlabel'                : label for x-axis
-%       'ylabel'                : label for y-axis
-%       'title'                 : title for axis
 %       'ax'                    : aspect ratio of axis, options are:
 %                                   {'square','equal','normal'}
 %       'match'                 : set all axes/subplots to the same scale,
@@ -30,7 +21,7 @@ function set(H,varargin)
 %   (1) make a plot and set figure properties
 %       x = [1:20];     
 %       plot(x,x.^2);
-%       set(gca,'ax','square','ylabel','squared','title','x-squared');
+%       set(gca,'ax','square');
 %
 %   (2) make two plots and set them both to the same scale
 %       x = [1:20];
@@ -49,13 +40,12 @@ if ischar(H)
     H           = gca;
 end;
     
-vararginoptions(varargin,{'fontsize','fontname','title_fontsize','leg_fontsize','fontsize_all',...
-                          'xticklabel','yticklabel','xtick','ytick','xlim','ylim','axis'...
-                          'xlabel','ylabel','title','ax','match','rotate_xtick'}); 
+vararginoptions(varargin,{'xticklabel','yticklabel','xtick','ytick','xlim','ylim','axis'...
+                          'ax','match','rotate_xtick'}); 
 
 %% 0. Getting specified user options
 OPTS        = style.get;
-OPTS        = plt.helper.getUserOptions(varargin,OPTS);
+OPTS        = plt.helper.getUserOptions(varargin,OPTS.display);
 OPTS.GCA    = [];
 
 %% 1. Setting up which axis need to be processed
@@ -66,14 +56,7 @@ YLimMax     = [-Inf -Inf];
 
 ax = plt.helper.get_axes(H);
 
-%% 2. over-ride font sizes if allfont is specified
-if exist('fontsize_all','var')
-    OPTS.fontsize           = fontsize_all;
-    OPTS.title_fontsize     = fontsize_all;
-    OPTS.leg_fontsize       = fontsize_all;
-end;
-
-%% 3. Loop over all axis types
+%% 2. Loop over all axis types
 for hL=1:length(ax)
     h = ax{hL};    % handle to current axis
     
@@ -81,8 +64,7 @@ for hL=1:length(ax)
         case 'matlab.graphics.axis.Axes'
             % Set font size and axis size properties
             axes(h);
-            plt.helper.set_font(h,OPTS);
-            eval(sprintf('axis %s',OPTS.display.ax));
+            eval(sprintf('axis %s',OPTS.ax));
             
             % Calculating axis min and max 
             xLimAct     = get(h,'xlim');

@@ -9,16 +9,16 @@ function varargout = get
 %       - either select default style if not is selected
 %       - select user-selected style
 [styID,fName]   = style.use;
-if strcmp(fName,'$DEFAULT$')
-    if strcmp(styID,'$DEFAULT$')
-        [colours,opt]   = plt.defaults.style('default');
-    else
-        [colours,opt]   = plt.defaults.style(styID);
-    end;
+if strcmp(fName,'default')
+    [colours,opt]   = plt.defaults.style(styID);
 else
-    [~,fname]       = fileparts(fName);
+    [fDir,fname]    = fileparts(fName);
     fcn             = str2func(fname);
+    
+    oldDir = pwd;
+    cd(fDir);
     [colours,opt]   = feval(fcn,styID);
+    cd(oldDir);    
 end;
 
 %% 1. Parse input from style and generate parameters used for plotting
