@@ -32,7 +32,7 @@ opt.display.xlabel          = '';
 opt.display.ylabel          = '';
 opt.display.title           = '';
 opt.display.panel_title     = '';
-opt.display.ax              = 'square';
+opt.display.ax              = 'normal';
 
 opt.font.fontname           = 'myriadpro';
 opt.font.fontunits          = 'points';
