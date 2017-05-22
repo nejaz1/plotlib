@@ -35,7 +35,7 @@ opt.save    = plt.helper.getUserOptions(varargin,opt.save);
 %       - set up colours of x- and y-axis lines
 set(H,'paperpositionmode',opt.save.papermode,'paperposition',opt.save.paperposition,...
       'papersize',opt.save.paperposition(3:4),'inverthardcopy',opt.save.inverthardcopy);
-o = plt.defaults.canvas(opt.save.canvas_mode);
+o = plt.defaults.canvas(opt.canvas.type);
 plt.helper.set_canvas(o.canvas);
 
 %% 2. print figure to file

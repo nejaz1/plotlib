@@ -66,4 +66,14 @@ opt.canvas.units            = 'centimeters';
 opt.canvas.menubar          = 'none';
 opt.canvas.resize           = 'on';
 
+%% 6. Save properties
+opt.save.journal            = 'brain';
+opt.save.dpi                = 300;
+opt.save.papermode          = 'manual';
+opt.save.format             = 'pdf';
+opt.save.rendering          = 'painters';
+opt.save.ui                 = 'noui';
+opt.save.style              = 'none';
+opt.save.inverthardcopy     = 'off';
+
 varargout   = {opt};
