@@ -1,4 +1,4 @@
-function [colours,opt] = style(styID)
+function [canvas,colours,opt] = style(styID)
 %% Description
 %   Default plotting parameters specified by the style styID
 %   Define additional styles within the switch statement. Users can create
@@ -12,9 +12,11 @@ function [colours,opt] = style(styID)
 opt = [];
 switch(styID)
     case 'default'
-        colours     = {'blue','green','red','black','lightgray','darkgray'};
+        colours         = {'blue','green','red','black','lightgray','darkgray'};
+        canvas          = 'paper';
     case 'gray'
-        colours     = {'black','lightgray','darkgray','black','lightgray','darkgray'};
+        colours         = {'black','lightgray','darkgray','black','lightgray','darkgray'};
+        canvas          = 'paper';
         opt.general.markertype  = {'o','v','^'};
         opt.general.linestyle   = {'-','-','-','--','--','--'};
 end;

@@ -62,7 +62,7 @@ CAT         = sty.general;
 opts        = plt.helper.makeUserOptions(opts);
 
 %   - make plot
-[r,b,t,p]   = scatterplot(x,y,opts{:},'CAT',CAT);
+[r,b,t,p]   = plt.helper.dataframe.scatterplot(x,y,opts{:},'CAT',CAT);
 plt.helper.set_font(gca,sty);
 
 % return values (if required)

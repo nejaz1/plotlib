@@ -1,10 +1,9 @@
-function save(fname,varargin)
+function save(fname,style,varargin)
 %% Description
 %   Saving figure window to file
 %   save(varargin) saves the figure window with handle H into the
 %   specified file name
 % Input
-%   H       : handle to figure window
 %   fname   : name of file that is saved
 %   varargin: Format options. 
 %       In general: 'formating_option', value,... 
@@ -25,20 +24,19 @@ function save(fname,varargin)
 
 
 %% 0. Default figure parameters
-style       = '1row';
-vararginoptions(varargin,{'style'}); 
+vararginoptions(varargin,{'canvas_mode','dpi','format','rendering'}); 
 
 %% 0. Get user options
-H   = gcf;
-opt = plt.defaults.save(style);
-opt = plt.helper.getUserOptions(varargin,opt);
+H           = gcf;
+opt         = plt.defaults.save(style);
+opt.save    = plt.helper.getUserOptions(varargin,opt.save);
 
 %% 1. Setting up figure mode and saving figure
 %       - set up colours of x- and y-axis lines
 set(H,'paperpositionmode',opt.save.papermode,'paperposition',opt.save.paperposition,...
-      'papersize',opt.save.paperposition(3:4));
-h = findobj(H,'type','axes');
-set(h,'xcolor',opt.save.xcolor{1},'ycolor',opt.save.ycolor{1},'zcolor',opt.save.zcolor{1});
+      'papersize',opt.save.paperposition(3:4),'inverthardcopy',opt.save.inverthardcopy);
+o = plt.defaults.canvas(opt.save.canvas_mode);
+plt.helper.set_canvas(o.canvas);
 
 %% 2. print figure to file
 print(H,['-r',num2str(opt.save.dpi)],['-d',opt.save.format],['-',opt.save.rendering],['-',opt.save.ui],fname); 

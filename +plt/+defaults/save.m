@@ -36,13 +36,12 @@ else
     opt.save.paperposition 	= preset_val{idx};    
     opt.save.dpi            = 300;
     opt.save.papermode      = 'manual';
-    opt.save.xcolor         = c;
-    opt.save.ycolor         = c;
-    opt.save.zcolor         = c;
     opt.save.format         = 'pdf';
     opt.save.rendering      = 'painters';
     opt.save.ui             = 'noui';
     opt.save.style          = 'none';
+    opt.save.inverthardcopy = 'off';
+    opt.save.canvas_mode    = 'paper';
 end;
 
 if nargout>0

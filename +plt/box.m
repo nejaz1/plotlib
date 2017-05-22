@@ -54,5 +54,5 @@ CAT         = sty.general;
 opts        = plt.helper.makeUserOptions(opts);
 
 %   - make plot
-myboxplot(x,y,opts{:},'CAT',CAT);
+plt.helper.dataframe.myboxplot(x,y,opts{:},'CAT',CAT);
 plt.helper.set_font(gca,sty);

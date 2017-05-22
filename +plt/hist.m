@@ -51,7 +51,7 @@ CAT         = sty.general;
 opts        = plt.helper.makeUserOptions(opts);
 
 %   - make plot
-[count,nbin] = histplot(x,opts{:},'CAT',CAT);
+[count,nbin] = plt.helper.dataframe.histplot(x,opts{:},'CAT',CAT);
 plt.helper.set_font(gca,sty);
 
 if nargout>1

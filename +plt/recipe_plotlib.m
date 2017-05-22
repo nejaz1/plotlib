@@ -29,7 +29,7 @@ plt.line(T.x,T.y,'split',T.split);
 
 %   - look at all available colours and create a custom style
 %   - set first group in blue, second group in red
-plt.defaults.colours('list');
+plt.defaults.colours;
 sty = style.custom({'blue','red'},'markersize',10,'linewidth',2);
 plt.line(T.x,T.y,'split',T.split,'style',sty);
 
@@ -40,8 +40,8 @@ plt.defaults.save;
 
 %       - save using no additional paper size formatting
 %       - save using Brain guidelines for a one-column figure (90mm width)
-plt.save(gcf,'1-col-format.pdf','style','1col');
-plt.save(gcf,'2-col-format.pdf','style','2col');
+plt.save('1-col-format.pdf','style','1x1');
+plt.save('2-col-format.pdf','style','1x2');
 
 
 

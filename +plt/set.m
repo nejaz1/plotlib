@@ -40,8 +40,11 @@ if ischar(H)
     H           = gca;
 end;
     
-vararginoptions(varargin,{'xticklabel','yticklabel','xtick','ytick','xlim','ylim','axis'...
-                          'ax','match','rotate_xtick'}); 
+vararginoptions(varargin,{'xticklabel','yticklabel',...
+                          'xticklabelrotation','yticklabelrotation',...
+                          'xtick','ytick','xlim','ylim','axis'...
+                          'ax','match','rotate_xtick','tickdir',...
+                          'xprecision','yprecision'}); 
 
 %% 0. Getting specified user options
 OPTS        = style.get;
@@ -62,9 +65,20 @@ for hL=1:length(ax)
     
     switch(class(h))
         case 'matlab.graphics.axis.Axes'
-            % Set font size and axis size properties
+            % Set aspect ration for axis properties
             axes(h);
             eval(sprintf('axis %s',OPTS.ax));
+            
+            % set tick direction for axis 
+            set(h,'tickdir',OPTS.tickdir);
+            
+            % set precision for x and y tick labels
+            if ~isempty(OPTS.xprecision)
+                set(h,'xticklabel',num2str(get(h,'xtick')',OPTS.xprecision));
+            end;
+            if ~isempty(OPTS.yprecision)
+                set(h,'yticklabel',num2str(get(h,'ytick')',OPTS.yprecision));
+            end;
             
             % Calculating axis min and max 
             xLimAct     = get(h,'xlim');
@@ -75,7 +89,8 @@ for hL=1:length(ax)
             YLimMax     = max([YLimMax; yLimAct],[],1);
 
             % Setting ticks and tick labels
-            x = {'xticklabel','yticklabel','xtick','ytick','xlim','ylim','axis'};
+            x = {'xticklabel','yticklabel','xtick','ytick','xlim','ylim','axis',...
+                 'xticklabelrotation','yticklabelrotation'};
             for i=1:length(x)
                 if exist(x{i},'var')
                     OPTS.GCA.(x{i}) = OPTS.(x{i});
@@ -86,11 +101,6 @@ for hL=1:length(ax)
             if ~isempty(OPTS.GCA)
                 set(h,OPTS.GCA);       
             end;
-            
-            % Rotating labels if necessary
-            if exist('rotate_xtick','var')
-                rotateticklabel(h,rotate_xtick);
-            end;            
     end;
 end;
 

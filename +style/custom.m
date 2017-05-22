@@ -6,12 +6,9 @@ function varargout = custom(colours,varargin)
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
 
 %% 0. Get base default styles
-c           = plt.defaults.colours(colours);
-opt         = plt.defaults.general(c);
+canvas      = 'paper';
+opt         = plt.defaults.general(canvas,colours);
 opt.general = plt.helper.getUserOptions(varargin,opt.general);
+opt         = addstruct(opt,plt.defaults.plots);
 
-p   = plt.defaults.plots;
-for i=1:length(p)
-    opt = addstruct(opt,plt.defaults.(p{i}));
-end;
 varargout = {opt};

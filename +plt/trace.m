@@ -57,7 +57,7 @@ CAT         = sty.general;
 opts        = plt.helper.makeUserOptions(opts);
 
 %   - make plot
-traceplot(x,y,opts{:},'CAT',CAT);
+plt.helper.dataframe.traceplot(x,y,opts{:},'CAT',CAT);
 plt.helper.set_font(gca,sty);    
 
 

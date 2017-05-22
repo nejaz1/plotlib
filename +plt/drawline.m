@@ -48,9 +48,9 @@ sty.legend  = plt.helper.updateUserOptions(sty.legend,opts,fieldnames(sty.legend
 
 %   - draw main line
 M = fcneval(sty.drawline.plotfcn,x);
-drawline(M,'dir',opts.dir,'color',sty.general.linecolor,...
-                          'linestyle',sty.general.linestyle,...
-                          'linewidth',sty.general.linewidth);
+plt.helper.dataframe.drawline(M,'dir',opts.dir,'color',sty.general.linecolor,...
+                                'linestyle',sty.general.linestyle,...
+                                'linewidth',sty.general.linewidth);
 
 if length(x)>1
     %   - make patch
@@ -67,5 +67,6 @@ if length(x)>1
         y1 = [YLIM(1), YLIM(2), YLIM(2), YLIM(1)];
         h  = patch(x1,y1,sty.general.errorcolor);
     end;
-    set (h,'FaceAlpha',opts.facealpha,'edgecolor',opts.edgecolor);
+    set(h,'FaceAlpha',opts.facealpha,'edgecolor',opts.edgecolor);
+    uistack(h,'bottom');
 end;    

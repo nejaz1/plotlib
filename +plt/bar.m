@@ -52,7 +52,7 @@ CAT         = sty.general;
 opts        = plt.helper.makeUserOptions(opts);
 
 %   - make plot
-barplot(x,y,opts{:},'CAT',CAT);
+plt.helper.dataframe.barplot(x,y,opts{:},'CAT',CAT);
 plt.helper.set_font(gca,sty);    
 
 

@@ -53,7 +53,7 @@ opts        = rmfield(opts,{'leg','leglocation'});
 opts        = plt.helper.makeUserOptions(opts);
 
 %   - make plot
-imagesc_rectangle(x,opts{:});
+plt.helper.dataframe.imagesc_rectangle(x,opts{:});
 if ~strcmp(leg,'none')
     colormap(map); 
     colorbar(legloc);

@@ -52,7 +52,7 @@ CAT         = sty.general;
 opts        = plt.helper.makeUserOptions(opts);
 
 %   - make plot
-xyplot(x,y,cat,opts{:},'CAT',CAT);
+plt.helper.dataframe.xyplot(x,y,cat,opts{:},'CAT',CAT);
 plt.helper.set_font(gca,sty);    
 
 
