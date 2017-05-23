@@ -54,7 +54,7 @@ end;
 %   - parse inputs
 opts        = plt.helper.getUserOptions(varargin,addstruct(sty.legend,sty.(mfilename)));
 CAT         = sty.general;
-opts        = plt.helper.makeUserOptions(opts);
+opts        = plt.helper.makeVararginOptions(opts);
 
 %   - make plot
 plt.helper.dataframe.traceplot(x,y,opts{:},'CAT',CAT);

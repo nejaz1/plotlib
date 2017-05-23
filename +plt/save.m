@@ -1,4 +1,4 @@
-function save(fname,style,varargin)
+function save(fname,save_style,varargin)
 %% Description
 %   Saving figure window to file
 %   save(varargin) saves the figure window with handle H into the
@@ -7,7 +7,7 @@ function save(fname,style,varargin)
 %   fname   : name of file that is saved
 %   varargin: Format options. 
 %       In general: 'formating_option', value,... 
-%       'style'                : style in which figure is saved.
+%       'savestyle'            : style in which figure is saved.
 %                                this depends on the journal and preset
 %                                parameters in the code.
 %       'dpi'                  : dpi for saved image (300 default)
@@ -26,17 +26,30 @@ function save(fname,style,varargin)
 %% 0. Default figure parameters
 vararginoptions(varargin,{'canvas_mode','dpi','format','rendering'}); 
 
-%% 0. Get user options
-H           = gcf;
-opt         = plt.defaults.save(style);
-opt.save    = plt.helper.getUserOptions(varargin,opt.save);
+%% 0. Get user options (canvas and save parameters)
+sty             = style.get;
+userOpt         = plt.helper.getUserOptions(varargin);
+
+%   - get canvas parameters
+if isfield(userOpt,'canvas_mode')
+    canvasOpt   = plt.defaults.canvas(userOpt.canvas_mode);
+else
+    canvasOpt   = plt.defaults.canvas(sty.canvas.type);
+end;
+sty.canvas = addstruct(sty.canvas,canvasOpt);
+
+%   - get save parameters
+saveOpt     = plt.defaults.save(sty.save.journal,save_style);
+sty.save    = plt.helper.updateUserOptions(sty.save,saveOpt);
+
+%% 1. Setup canvas properties
+plt.helper.set_canvas(sty.canvas);
 
 %% 1. Setting up figure mode and saving figure
 %       - set up colours of x- and y-axis lines
-set(H,'paperpositionmode',opt.save.papermode,'paperposition',opt.save.paperposition,...
-      'papersize',opt.save.paperposition(3:4),'inverthardcopy',opt.save.inverthardcopy);
-o = plt.defaults.canvas(opt.canvas.type);
-plt.helper.set_canvas(o.canvas);
+H           = gcf;
+set(H,'paperpositionmode',sty.save.papermode,'paperposition',sty.save.paperposition,...
+      'papersize',sty.save.paperposition(3:4),'inverthardcopy',sty.save.inverthardcopy);
 
 %% 2. print figure to file
-print(H,['-r',num2str(opt.save.dpi)],['-d',opt.save.format],['-',opt.save.rendering],['-',opt.save.ui],fname); 
+print(H,['-r',num2str(sty.save.dpi)],['-d',sty.save.format],['-',sty.save.rendering],['-',sty.save.ui],fname); 

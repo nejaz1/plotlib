@@ -13,11 +13,11 @@ opt = [];
 switch(styID)
     case 'default'
         colours             = {'blue','green','red','black','lightgray','darkgray'};
-        canvas              = 'paper';
+        canvas              = 'blackonwhite';
         opt.save.journal    = 'brain';
     case 'gray'
         colours             = {'black','lightgray','darkgray','black','lightgray','darkgray'};
-        canvas              = 'paper';
+        canvas              = 'blackonwhite';
         opt.save.journal    = 'brain';
         opt.general.markertype  = {'o','v','^'};
         opt.general.linestyle   = {'-','-','-','--','--','--'};

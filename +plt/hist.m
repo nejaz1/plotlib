@@ -48,7 +48,7 @@ end;
 % opts        = plt.helper.getUserOptions(varargin,addstruct(sty.legend,sty.(mfilename)));
 opts        = plt.helper.getUserOptions(varargin,sty.(mfilename));
 CAT         = sty.general;
-opts        = plt.helper.makeUserOptions(opts);
+opts        = plt.helper.makeVararginOptions(opts);
 
 %   - make plot
 [count,nbin] = plt.helper.dataframe.histplot(x,opts{:},'CAT',CAT);

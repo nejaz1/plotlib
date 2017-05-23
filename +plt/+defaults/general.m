@@ -8,13 +8,13 @@ function varargout = general(canvas_type,plot_color)
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
 
 %% 0. Parse input
+opt.base            = plt.defaults.base;
 if nargin==0
-    canvas_type     = 'paper';
-    plot_color      = 'black';
+    canvas_type     = opt.base.canvas_type;
+    plot_color      = opt.base.plot_color;
 elseif nargin==1
-    plot_color      = 'black';
+    plot_color      = opt.base.plot_color;
 end;
-
 
 %% 1. General plotting styles
 plot_color                  = plt.defaults.colours(plot_color);
@@ -43,12 +43,13 @@ opt.display.title           = '';
 opt.display.panel_title     = '';
 opt.display.ax              = 'normal';
 opt.display.legvisible      = 'on';
+opt.display.legorient       = 'vertical';
 opt.display.tickdir         = 'out';
 opt.display.xprecision      = [];
 opt.display.yprecision      = [];
 
 %% 4. Font sizes
-opt.font.fontname           = 'myriadpro';
+opt.font.fontname           = opt.base.font_name;
 opt.font.fontunits          = 'points';
 opt.font.fontsize           = 12;
 opt.font.title_fontsize     = 14;
@@ -59,21 +60,21 @@ opt.font.panel_horzalign    = 'right';
 opt.font.panel_vertalign    = 'baseline';
 
 %% 5. Canvas properties
-opt                         = addstruct(opt,plt.defaults.canvas(canvas_type));
 opt.canvas.type             = canvas_type;
+opt.canvas.position         = opt.base.figure_position;
 opt.canvas.papertype        = 'a4';
 opt.canvas.units            = 'centimeters';
 opt.canvas.menubar          = 'none';
 opt.canvas.resize           = 'on';
 
 %% 6. Save properties
-opt.save.journal            = 'brain';
+opt.save.journal            = opt.base.save_journal;
+opt.save.style              = opt.base.save_style;
 opt.save.dpi                = 300;
 opt.save.papermode          = 'manual';
 opt.save.format             = 'pdf';
 opt.save.rendering          = 'painters';
 opt.save.ui                 = 'noui';
-opt.save.style              = 'none';
 opt.save.inverthardcopy     = 'off';
 
 varargout   = {opt};

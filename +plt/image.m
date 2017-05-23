@@ -50,7 +50,7 @@ leg         = opts.leg;
 legloc      = opts.leglocation;
 map         = opts.MAP;
 opts        = rmfield(opts,{'leg','leglocation'});
-opts        = plt.helper.makeUserOptions(opts);
+opts        = plt.helper.makeVararginOptions(opts);
 
 %   - make plot
 plt.helper.dataframe.imagesc_rectangle(x,opts{:});

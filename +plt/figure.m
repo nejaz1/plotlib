@@ -20,13 +20,12 @@ function varargout=figure(varargin)
 % Author
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
 
-sty     = style.get;
-canvas  = plt.helper.getUserOptions(varargin,sty.canvas);
+sty             = style.get;
+sty.canvas      = plt.helper.getUserOptions(varargin,sty.canvas);
+canvasOpt       = plt.defaults.canvas(sty.canvas.type);
+sty.canvas      = addstruct(sty.canvas,canvasOpt);
 
-%% 1. Setting up figure and returning handle
-h       = figure;
-ppos    = get(h,'position');
-set(h,'position',[1 1 ppos(3:4)],'papertype',canvas.papertype,'paperunits',canvas.units,...
-      'menubar',canvas.menubar,'resize',canvas.resize);
-plt.helper.set_canvas(canvas);
+%% 1. Creating figure, setting default canvas properties and returning handle
+h = figure;
+plt.helper.set_canvas(sty.canvas);
 varargout = {h};
