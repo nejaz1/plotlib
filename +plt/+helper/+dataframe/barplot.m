@@ -238,10 +238,10 @@ for i=1:length(x_coord)
     end; 
    if (~flip) 
         h(i)=patch(XX,YY,fm.facecolor);
-        errorbars(x_coord(i),PLOT(i),ERROR(i),'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'cap',capwidth);
+        plt.helper.dataframe.errorbars(x_coord(i),PLOT(i),ERROR(i),'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'cap',capwidth);
    else 
         h(i)=patch(YY,XX,fm.facecolor);
-        errorbars(PLOT(i),x_coord(i),ERROR(i),'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,...
+        plt.helper.dataframe.errorbars(PLOT(i),x_coord(i),ERROR(i),'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,...
             'cap',capwidth,'orientation','horz');
    end; 
    if (isfield(F,'edgecolor'))

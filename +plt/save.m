@@ -45,11 +45,15 @@ sty.save    = plt.helper.updateUserOptions(sty.save,saveOpt);
 %% 1. Setup canvas properties
 plt.helper.set_canvas(sty.canvas);
 
-%% 1. Setting up figure mode and saving figure
-%       - set up colours of x- and y-axis lines
+%% 1. Setting figure size required for pdf
 H           = gcf;
-set(H,'paperpositionmode',sty.save.papermode,'paperposition',sty.save.paperposition,...
-      'papersize',sty.save.paperposition(3:4),'inverthardcopy',sty.save.inverthardcopy);
-
+set(H,'paperpositionmode','manual',...
+      'paperunits',sty.save.units,...
+      'paperposition',sty.save.paperposition,...
+      'papersize',sty.save.paperposition(3:4));
+  
 %% 2. print figure to file
 print(H,['-r',num2str(sty.save.dpi)],['-d',sty.save.format],['-',sty.save.rendering],['-',sty.save.ui],fname); 
+
+%% 3. Resetting paper mode and units
+set(H,'paperpositionmode','auto','paperunits',sty.canvas.units);

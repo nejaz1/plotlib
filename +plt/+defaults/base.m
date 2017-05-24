@@ -13,5 +13,6 @@ base.save_journal       = 'brain';          % for journal Brain
 base.save_style         = '1x1';            % default saved figure 1row 2col
 base.font_name          = 'myriadpro';      % default text used for all figures
 base.figure_position    = [49 1];           % location of plotted figure on screen
+base.alpha              = 0.3;              % shading alpha used across plots
 
 varargout   = {base};

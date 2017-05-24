@@ -9,8 +9,8 @@ function varargout = colours(colourID)
 %                       - blue          RGB: 0, 0, 1
 %                       - green         RGB: 0, 1, 0
 %                       - red           RGB: 1, 0, 0
-%                       - lightgray     RGB: 0.35, 0.35, 0.35
-%                       - darkgray      RGB: 0.6, 0.6, 0.6
+%                       - lightgray     RGB: 0.7, 0.7, 0.7
+%                       - darkgray      RGB: 0.3, 0.3, 0.3
 %                       - lightblue     RGB: 0.6, 0.6, 1
 %                       - lightgreen    RGB: 0.6, 1, 0.6
 %                       - lightred      RGB: 1, 0.6, 0.6

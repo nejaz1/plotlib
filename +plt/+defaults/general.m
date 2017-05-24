@@ -22,7 +22,7 @@ opt.general.facecolor       = plot_color;
 opt.general.linecolor       = plot_color;
 opt.general.patchcolor      = plot_color;
 opt.general.errorcolor      = plot_color;
-opt.general.markerfill      = plot_color;
+opt.general.markerfill      = plt.helper.get_colours_alpha(plot_color,opt.base.alpha);
 opt.general.markercolor     = plot_color;
 opt.general.shadecolor      = plot_color;
 opt.general.fillcolor       = plot_color;
@@ -44,7 +44,7 @@ opt.display.panel_title     = '';
 opt.display.ax              = 'normal';
 opt.display.legvisible      = 'on';
 opt.display.legorient       = 'vertical';
-opt.display.tickdir         = 'out';
+opt.display.tickdir         = 'in';
 opt.display.xprecision      = [];
 opt.display.yprecision      = [];
 
@@ -63,18 +63,23 @@ opt.font.panel_vertalign    = 'baseline';
 opt.canvas.type             = canvas_type;
 opt.canvas.position         = opt.base.figure_position;
 opt.canvas.papertype        = 'a4';
-opt.canvas.units            = 'centimeters';
+opt.canvas.units            = 'normalized';
+opt.canvas.papermode        = 'auto';
 opt.canvas.menubar          = 'none';
 opt.canvas.resize           = 'on';
+opt.canvas.inverthardcopy   = 'off';
 
 %% 6. Save properties
 opt.save.journal            = opt.base.save_journal;
 opt.save.style              = opt.base.save_style;
 opt.save.dpi                = 300;
-opt.save.papermode          = 'manual';
+opt.save.units              = 'centimeters';
 opt.save.format             = 'pdf';
 opt.save.rendering          = 'painters';
 opt.save.ui                 = 'noui';
-opt.save.inverthardcopy     = 'off';
+opt.save.convertformat      = 'jpeg';
+opt.save.convertquality     = 'best';
+
+
 
 varargout   = {opt};

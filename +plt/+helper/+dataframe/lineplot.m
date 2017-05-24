@@ -415,6 +415,21 @@ for c=1:numsplitcat
         y=PLOT(c,l_from(seg):l_to(seg));
         h(c)=plot(x,y);
         set(h(c),'Color',fm.linecolor,'LineWidth',fm.linewidth,'LineStyle',fm.linestyle,'Marker',fm.markertype,'MarkerSize',fm.markersize,'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);
+        
+        if (~isempty(errorfcn))
+            EU=ERROR_UP(c,l_from(seg):l_to(seg));
+            ED=ERROR_DOWN(c,l_from(seg):l_to(seg));
+            if (strcmp(fm.errorbars,'plusminus'))
+                plt.helper.dataframe.errorbars(x,y',[ED' EU'],'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'error_dir','both','cap',fm.errorcap);
+            elseif (strcmp(fm.errorbars,'shade'))
+                i=find(~isnan(y+EU)); 
+                Y=[y(i)+EU(i) fliplr(y(i)-ED(i))];
+                X=[x(i)' fliplr(x(i)')];
+                h=patch(squeeze(X), squeeze(Y), fm.linecolor);
+                set (h, 'FaceColor',fm.shadecolor,'EdgeColor','none','Facealpha',fm.transp);
+                uistack(h,'down');
+            end;
+        end;
     end;
 end;
 
@@ -426,26 +441,26 @@ end;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Error bars
-if (~isempty(errorfcn))
-    for c = 1:numsplitcat
-        fm=forms{c};
-        for seg = 1:length(l_from)
-            x=x_coord(l_from(seg):l_to(seg));
-            y=PLOT(c,l_from(seg):l_to(seg));
-            EU=ERROR_UP(c,l_from(seg):l_to(seg));
-            ED=ERROR_DOWN(c,l_from(seg):l_to(seg));
-            if (strcmp(fm.errorbars,'plusminus'))
-                errorbars(x,y',[ED' EU'],'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'error_dir','both','cap',fm.errorcap);
-            elseif (strcmp(fm.errorbars,'shade'))
-                i=find(~isnan(y+EU)); 
-                Y=[y(i)+EU(i) fliplr(y(i)-ED(i))];
-                X=[x(i)' fliplr(x(i)')];
-                h=patch(squeeze(X), squeeze(Y), fm.linecolor);
-                set (h, 'FaceColor',fm.shadecolor,'EdgeColor','none','Facealpha',fm.transp);
-            end;
-        end
-    end
-end;
+% if (~isempty(errorfcn))
+%     for c = 1:numsplitcat
+%         fm=forms{c};
+%         for seg = 1:length(l_from)
+%             x=x_coord(l_from(seg):l_to(seg));
+%             y=PLOT(c,l_from(seg):l_to(seg));
+%             EU=ERROR_UP(c,l_from(seg):l_to(seg));
+%             ED=ERROR_DOWN(c,l_from(seg):l_to(seg));
+%             if (strcmp(fm.errorbars,'plusminus'))
+%                 errorbars(x,y',[ED' EU'],'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'error_dir','both','cap',fm.errorcap);
+%             elseif (strcmp(fm.errorbars,'shade'))
+%                 i=find(~isnan(y+EU)); 
+%                 Y=[y(i)+EU(i) fliplr(y(i)-ED(i))];
+%                 X=[x(i)' fliplr(x(i)')];
+%                 h=patch(squeeze(X), squeeze(Y), fm.linecolor);
+%                 set (h, 'FaceColor',fm.shadecolor,'EdgeColor','none','Facealpha',fm.transp);
+%             end;
+%         end
+%     end
+% end;
 
 
 

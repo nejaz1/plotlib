@@ -205,16 +205,12 @@ for c=1:numsplitcat
     end;
     
     % calculate saturated colour for colouring scatterplot dots
-    alphacolor = (1-alpha)*max(fm.markercolor);
-    alphacolor = fm.markercolor + alphacolor;
-    alphacolor(alphacolor>1)=1;
+    fm.markerfill = plt.helper.get_colours_alpha(fm.markercolor,alpha);
     
     h(c)=plot(D{c,2}(:,1),D{c,2}(:,2),'ko');
     if (isempty(color) & isempty(bubble))
-%         set(h(c),'Marker',fm.markertype,'MarkerSize',fm.markersize,...
-%                 'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);
         set(h(c),'Marker',fm.markertype,'MarkerSize',fm.markersize,...
-                'MarkerEdgeColor',alphacolor,'MarkerFaceColor',alphacolor);
+                'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);
     elseif (~isempty(color))
         for i=1:length(x)
             set(plot(x(i),y(i),'k.'),'Marker',fm.markertype,'MarkerSize',fm.markersize,...

@@ -261,11 +261,11 @@ for c=1:numsplitcat
     set(h(c),'Color',fm.linecolor,'LineWidth',fm.linewidth,'LineStyle',fm.linestyle,'Marker',fm.markertype,'MarkerSize',fm.markersize,'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill); 
     switch (F.errorbars) 
         case 'plusminus_wocap'
-            errorbars(X(c,:)',Y(c,:)',Yerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','vert','error_dir','both','cap',0);
-            errorbars(X(c,:)',Y(c,:)',Xerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','horz','error_dir','both','cap',0);
+            plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Yerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','vert','error_dir','both','cap',0);
+            plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Xerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','horz','error_dir','both','cap',0);
         case 'plusminus'
-            errorbars(X(c,:)',Y(c,:)',Yerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','vert','error_dir','both');
-            errorbars(X(c,:)',Y(c,:)',Xerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','horz','error_dir','both');
+            plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Yerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','vert','error_dir','both');
+            plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Xerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','horz','error_dir','both');
         case 'ellipse' 
             for n=1:length(X(c,:)')
                 if (~isnan(Xerr(c,n))&~isnan(Yerr(c,n))&~isnan(XYerr(c,n))) % If observations present

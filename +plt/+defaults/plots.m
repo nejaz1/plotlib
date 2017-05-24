@@ -12,19 +12,20 @@ opt.line.plotfcn        = 'mean';
 
 %% bar plot
 opt.bar.plotfcn         = 'mean';
-opt.bar.barwidth        = 0.6;
-opt.bar.capwidth        = 0.1;
-opt.bar.gapwidth        = [0.8 0 0 0];
+opt.bar.barwidth        = 1;
+opt.bar.gapwidth        = [1 0.2 0.1 0];
+opt.bar.capwidth        = 0.15 * opt.bar.barwidth;
 opt.bar.edgecolor       = 'none';
 opt.bar.errorcolor      = plt.defaults.colours('black');
 
 %% trace plot
 opt.trace.errorfcn      = 'stderr';
+opt.trace.alpha         = 1;
 
 %% scatter plot
 opt.scatter.regression      = 'linear';
 opt.scatter.intercept       = 1;
-opt.scatter.alpha           = 0.7;
+opt.scatter.alpha           = 0.5;
 
 %% xy plot
 opt.xy.plotfcn_x        = 'mean';
