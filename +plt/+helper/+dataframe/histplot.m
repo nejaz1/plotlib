@@ -38,7 +38,7 @@ versionNum = sscanf (version, '%d.%d.%d') ;
 versionNum = 10.^(0:-1:-(length(versionNum)-1)) * versionNum ;
 
 F.facecolor={[0.5 0.5 0.5],[1 1 1],[0 0 0],[1 1 0],[0 1 1],[1 0 1]};
-F.facealpha=1;
+F.alpha=1;
 F.linecolor=[0 0 0];
 F.linewidth=1;
 F.barwidth=1;
@@ -53,7 +53,7 @@ F.markersize=4;
 
 fit={};
 percent=0;
-style='bar';
+type='bar';
 split=[];
 splitSP={[],[]};
 leg=[];
@@ -73,17 +73,17 @@ while(c<=length(varargin))
         case 'splitcol'
             splitSP{2}=varargin{c+1};
             c=c+2;
-        case {'style','gap','split','subset','leg','leglocation','split','numcat','percent','catX','fit'}
+        case {'type','gap','split','subset','leg','leglocation','numcat','percent','catX','fit'}
             eval([varargin{c} '=varargin{c+1};']);c=c+2;
-        case {'facecolor','facealpha','linecolor','linewidth',...
+        case {'facecolor','alpha','linecolor','linewidth',...
                 'fillcolor','markersize','markertype',...
                 'markercolor','markerfill','barwidth'};
             eval(['F.',varargin{c} '=varargin{c+1};']);c=c+2;
         case 'style_bar1'
-            style='bar';
+            type='bar';
             F.facecolor={[0 0 1],[1 0 0],[0 1 0],[1 1 0],[0 1 1],[1 0 1]};
             F.linecolor={[0 0 1],[1 0 0],[0 1 0],[1 1 0],[0 1 1],[1 0 1]};
-            F.facealpha=0.3;
+            F.alpha=0.3;
             F.edgecolor=[0 0 0];
             F.linestyle='outline';
             F.linewidth=3;
@@ -107,7 +107,10 @@ end;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Deal with selection (subset) variable
-[split,split_conv]=fac2int(split);
+if ~isempty(split)
+    [split,split_conv]=fac2int(split);
+end;
+% [split,split_conv]=fac2int(split);
 for i=1:2
     [splitSP{i},splitSP_conv{i}]=fac2int(splitSP{i});
 end;
@@ -193,7 +196,7 @@ for row=1:numsplitcatSP{1}
                 end;
                 maxN(end+1)=max(N(cat,:));
                 
-                % Copy over style to
+                % Copy over type to
                 fm=F;
                 for f=1:length(form)
                     fiel=getfield(F,form{f});
@@ -207,7 +210,7 @@ for row=1:numsplitcatSP{1}
                 end;
                 
                 
-                switch (style)
+                switch (type)
                     case 'bar'
                         h(cat)=bar(X,N(cat,:),fm.barwidth);
 %                         if versionNum<8.5 % Use the old graphics system  
@@ -234,9 +237,10 @@ for row=1:numsplitcatSP{1}
                             li=line(XX',YY','LineWidth',fm.linewidth,'Color',fm.linecolor);
                             fm.linestyle='none';
                         end;
-                        %
+                        
+                        fm.facecolor = plt.helper.get_colours_alpha(fm.facecolor,fm.alpha);
                         if (versionNum<8.4) 
-                            set(h(cat),'EdgeColor',fm.linecolor,'linestyle',fm.linestyle,'FaceColor',fm.facecolor,'LineWidth',fm.linewidth,'FaceAlpha',fm.facealpha);
+                            set(h(cat),'EdgeColor',fm.linecolor,'linestyle',fm.linestyle,'FaceColor',fm.facecolor,'LineWidth',fm.linewidth,'FaceAlpha',fm.alpha);
                         else
                             set(h(cat),'EdgeColor',fm.linecolor,'linestyle',fm.linestyle,'FaceColor',fm.facecolor,'LineWidth',fm.linewidth);
                         end; 
@@ -269,7 +273,7 @@ for row=1:numsplitcatSP{1}
             end;
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % Do legend 
-            if (~isempty(split))
+            if (~isempty(split) && length(unique(split))~=1)
                 plt.helper.dataframe.plotlegend(h(1:numsplitcat),leg,splitcat,split_conv,leglocation);
             else 
                 legend(gca,'off');

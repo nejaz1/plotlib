@@ -45,8 +45,7 @@ end;
 
 %% 2. Make line plot and set font levels to default
 %   - parse inputs
-% opts        = plt.helper.getUserOptions(varargin,addstruct(sty.legend,sty.(mfilename)));
-opts        = plt.helper.getUserOptions(varargin,sty.(mfilename));
+opts        = plt.helper.getUserOptions(varargin,addstruct(sty.legend,sty.(mfilename)));
 CAT         = sty.general;
 opts        = plt.helper.makeVararginOptions(opts);
 

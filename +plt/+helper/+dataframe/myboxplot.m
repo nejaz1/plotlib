@@ -32,7 +32,7 @@ function myboxplot(group,y,varargin)
 %       'markercolor',[r g b] : Color of the marker edge
 %       'markerfill',[r g b]  : Color of the marker fill
 %   Format options for whole graph
-%       'gap',size            : Size of gap between bars
+%       'gapwidth',size            : Size of gapwidth between bars
 %       'linscale'            : Makes the scale of x not categorial, but linear
 %       'xtickoff'            : Removes label
 %       'flip'                : Makes horizontal instead of vertical bars
@@ -72,25 +72,26 @@ F.markerfill=[0 0 0];
 F.markersize=4;
 F.linscale=0;
 F.boxwidth=0.75;
-gap=[1 0.7 0.5 0.5];
-F.xtickoff=0;
+gapwidth=[1 0.7 0.5 0.5];
+F.xtickoff=1;
 split=[];
 leg=[];
 F.flip = 0;
+F.alpha = 0.1;
 leglocation='SouthEast';
 % Deal with the varargin's
 c=1;
 while(c<=length(varargin))
     switch(varargin{c})
-    case {'gap','linscale','split','subset','leg','leglocation'}
+    case {'gapwidth','linscale','split','subset','leg','leglocation'}
         eval([varargin{c} '=varargin{c+1};']);c=c+2;
     case {'xtickoff'}
         F.xtickoff=1;c=c+1;
-    case {'flip'}
-        F.flip=1;c=c+1;
+%     case {'flip'}
+%         F.flip=1;c=c+1;
     case {'boxwidth','outliersymbol','whiskerlength','whiskerwidth','linecolor','linewidth',...
                 'fillcolor','mediancolor','medianwidth','notch','markersize','markertype',...
-                'markercolor','markerfill','plotall'};
+                'markercolor','markerfill','plotall','alpha','flip'};
         eval(['F.',varargin{c} '=varargin{c+1};']);c=c+2;
     case 'style_twoblock'
         F.plotall=2;
@@ -217,13 +218,13 @@ if (F.linscale ==0 )
     for c=2:num_cat
         for gv=1:numgrvar
             if(D{c,1}(gv)~=D{c-1,1}(gv))
-                x_coord(c)=x_coord(c-1)+gap(gv);
+                x_coord(c)=x_coord(c-1)+gapwidth(gv);
                 break;
             end;
         end;
     end;
     xlims = [min(x_coord)-0.5 max(x_coord)+0.5];
-    F.w=gap(2)*F.boxwidth; 
+    F.w=gapwidth(2)*F.boxwidth; 
 else
     x_coord=[D{:,1}];
     size_x=max(x_coord)-min(x_coord);
@@ -280,7 +281,12 @@ for c=1:num_cat
         end;
     end;
     if (sum(~isnan(D{c,2}))>0)
-        [dummy,h(c)]=myboxutil(D{c,2}(~isnan(D{c,2})),x_coord(c),fm);
+        %   F.linecolor
+%   F.mediancolor
+%   F.fillcolor
+        fm.mediancolor = fm.linecolor;
+        fm.fillcolor   = plt.helper.get_colours_alpha(fm.linecolor,fm.alpha);
+        [dummy,h(c)]   = plt.helper.dataframe.myboxutil(D{c,2}(~isnan(D{c,2})),x_coord(c),fm);
     end;
 end;
 
@@ -302,9 +308,13 @@ if (~isempty(split))
     Split_groups=vertcat(D{:,1});
     Split_groups=Split_groups(:,numlvars+1:end);
     plt.helper.dataframe.plotlegend(h(1:numsplitcat),leg,Split_groups(1:numsplitcat,:),split_conv,leglocation);
+    set(gca,'xticklabel',Split_groups);
+else
+    set(gca,'xticklabel',get(gca,'xtick'));
 end;
 
 set(gca,'NextPlot','replace');
+
 
 % Store information for gname: this might be cool!
 % set(gca, 'UserData', {'boxplot' xvisible gorig vert});

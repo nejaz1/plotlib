@@ -23,9 +23,9 @@ opt.trace.errorfcn      = 'stderr';
 opt.trace.alpha         = 1;
 
 %% scatter plot
-opt.scatter.regression      = 'linear';
-opt.scatter.intercept       = 1;
-opt.scatter.alpha           = 0.5;
+opt.scatter.regression  = 'linear';
+opt.scatter.intercept   = 1;
+opt.scatter.alpha       = 0.5;
 
 %% xy plot
 opt.xy.plotfcn_x        = 'mean';
@@ -34,10 +34,22 @@ opt.xy.plotfcn_y        = 'mean';
 %% hist plot
 opt.hist.percent        = 0;
 opt.hist.numcat         = 25;
-opt.hist.barwidth       = 0.8;
+opt.hist.barwidth       = 1;
+opt.hist.alpha          = 0.2;
+opt.hist.type           = 'line';
 
 %% box plot
-opt.box.plotall             = 0;
+opt.box.plotall         = 1;
+opt.box.notch           = 0;
+opt.box.boxwidth        = 0.6;
+opt.box.gapwidth        = [0.8 0.3 0.1 0];
+opt.box.outliersymbol   = '0';
+opt.box.markersize      = 4;
+opt.box.linewidth       = 1.5;
+opt.box.medianwidth     = 1.5;
+opt.box.whiskerwidth    = 1.5;
+opt.box.alpha           = 0.3;
+opt.box.flip            = 0;
 
 %% image plot
 opt.image.YDir          = 'reverse';
