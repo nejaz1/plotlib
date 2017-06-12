@@ -24,5 +24,4 @@ sty = style.get;
 plt.set(gcf);
 plt.legend({sty.legend.leglocation,sty.display.legorient});
 plt.canvas_mode(sty.canvas.type);
-plt.panel('A');
 plt.save(fname,save_style);

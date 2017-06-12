@@ -66,7 +66,7 @@ for hL=1:length(ax)
     switch(class(h))
         case 'matlab.graphics.axis.Axes'
             % Set aspect ration for axis properties
-            axes(h);
+            set(gcf, 'currentaxes', h);
             eval(sprintf('axis %s',OPTS.ax));
             
             % set tick direction for axis 

@@ -30,7 +30,8 @@ opt.general.linewidth       = 1.5;
 opt.general.markersize      = 8;
 opt.general.errorwidth      = 1.5;
 opt.general.markertype      = 'o';
-opt.general.linestyle       = '-';
+opt.general.linestyle       = '-';        
+    
 
 %% 2. Legend
 opt.legend.leg              = 'auto';

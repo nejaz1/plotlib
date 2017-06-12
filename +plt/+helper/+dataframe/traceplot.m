@@ -1,4 +1,4 @@
-function PLOT=traceplot(t,data,varargin);
+function PLOT=traceplot(t,data,varargin)
 % function T=traceplot(time,rawtraces,varargin);
 % makes a plot to compare the mean of temporal time series between conditions
 % t: is a 1xT vector of times 
@@ -25,24 +25,29 @@ function PLOT=traceplot(t,data,varargin);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Defaults and deal with options 
 
-F.linewidth=1;
-F.linecolor={[0 0 1],[1 0 0],[0 1 0],[0 0 0],[1 1 0]};
-F.patchcolor={[0 0 1],[1 0 0],[0 1 0],[0 0 0],[1 1 0]};
-F.linestyle='-';
-F.transp=0.3;
-F.markertype={'none'};
-F.markerfill={[0 0 1],[1 0 0],[0 1 0],[0 0 0],[1 1 0]};
-F.markercolor=[0 0 0];
-F.markersize=4;
-leg={};
-plotfcn='nanmean';
-errorfcn='';
-subset=[];
-split=[];
-XLim=[];
-YLim=[];
-leglocation='NorthEast';
-alpha=0.5;
+%% 0. House keeping parameters
+%   - determine matlab version
+versionNum          = plt.helper.matlab_version;
+
+%   - set internal parameters
+F.linewidth         = 1;
+F.linecolor         = {[0 0 1],[1 0 0],[0 1 0],[0 0 0],[1 1 0]};
+F.patchcolor        = {[0 0 1],[1 0 0],[0 1 0],[0 0 0],[1 1 0]};
+F.linestyle         = '-';
+F.transp            = 0.3;
+F.markertype        = {'none'};
+F.markerfill        = {[0 0 1],[1 0 0],[0 1 0],[0 0 0],[1 1 0]};
+F.markercolor       = [0 0 0];
+F.markersize        = 4;
+leg                 = {};
+plotfcn             = 'nanmean';
+errorfcn            = '';
+subset              = [];
+split               = [];
+XLim                = [];
+YLim                = [];
+leglocation         = 'NorthEast';
+facealpha           = 0.5;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Deal with the varargin's
@@ -54,7 +59,8 @@ while(c<=length(varargin))
             c=c+2;
         % Style tabs: single value sets it for all values, cell array puts
         % in the cat structure 
-        case {'linewidth','linecolor','patchcolor','linestyle','transp','markertype','markersize','markercolor','markerfill','alpha'}
+        case {'linewidth','linecolor','patchcolor','linestyle','transp','markertype','markersize','markercolor','markerfill',...
+              'facealpha','erroralpha'}
             v=varargin{c+1}; 
             eval(['F.' varargin{c} '=v;']);  
             c=c+2;
@@ -124,13 +130,18 @@ for c=1:numcats
     end;
     h(c)=plot(t,PLOT(c,:));hold on;
     
-    fm.markerfill = plt.helper.get_colours_alpha(fm.markercolor,fm.alpha);
+    fm.markerfill = plt.helper.get_colours_alpha(fm.markercolor,fm.facealpha);
     set(h(c),'LineWidth',fm.linewidth,'Color',fm.linecolor,'LineStyle',fm.linestyle,'Marker',fm.markertype,'MarkerSize',fm.markersize,'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);
     
     if (~isempty(errorfcn) & size(A{c,2},1)>1)
         ERR(c,:)=fcneval(errorfcn,A{c,2});
         p(c)=plotshade(t,PLOT(c,:),ERR(c,:),'patchcolor',fm.patchcolor,'transp',fm.transp);hold on;
+        set(p(c),'facealpha',fm.erroralpha);
     end;
+    
+    % set data and error bar tags
+    set(h(c),'tag',num2str(c));
+    set(p(c),'tag',num2str(c));
 end;
 set(gca,'Box','off','NextPlot',holding);
 if (~isempty(XLim))
