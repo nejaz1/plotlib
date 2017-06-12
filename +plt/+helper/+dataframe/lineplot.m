@@ -80,35 +80,39 @@ function [x_coord,PLOT,ERROR]=lineplot(xvar,y,varargin)
 
 if (nargin==1 & length(y(:))==1 & ishandle(y)), resizefcn(y); return; end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Set defaults values
-F.linecolor=[0.8 0.8 0.8];
-F.linewidth=1;
-F.linestyle='-';
-F.fillcolor=[0.8 0.8 0.8];
-F.markertype={'o','o','^','^','s','s','v','v'};
-F.markerfill={[0 0 0],[1 1 1],[0 0 0],[1 1 1],[0 0 0],[1 1 1],[0 0 0],[1 1 1]};
-F.markercolor=[0 0 0];
-F.markersize=4;
-F.errorwidth=1;
-F.errorcolor=[0.8 0.8 0.8];
-F.errorbars='plusminus';
-F.transp=0.3;
-F.errorcap=[]; 
+%% 0. House keeping
+%   - determine matlab version
+versionNum          = plt.helper.matlab_version;
 
-gap=[1 0.7 0.5 0.5];
-leg=[];
-catcol=[]; 
-xcat=[];
-flip=0;
-leglocation='SouthEast';
-plotfcn='mean';
-errorfcn='stderr';
-numxvars=size(xvar,2);
-XTickLabel=0;
-XCoord='auto';
-split=[];numsplitvars=0;
-goodindx=[1:size(y,1)]';
+%   - set internal parameters
+F.linecolor         = [0.8 0.8 0.8];
+F.linewidth         = 1;
+F.linestyle         = '-';
+F.fillcolor         = [0.8 0.8 0.8];
+F.markertype        = {'o','o','^','^','s','s','v','v'};
+F.markerfill        = {[0 0 0],[1 1 1],[0 0 0],[1 1 1],[0 0 0],[1 1 1],[0 0 0],[1 1 1]};
+F.markercolor       = [0 0 0];
+F.markersize        = 4;
+F.errorwidth        = 1;
+F.errorcolor        = [0.8 0.8 0.8];
+F.errorbars         = 'plusminus';
+F.transp            = 0.3;
+F.errorcap          = []; 
+
+gap                 = [1 0.7 0.5 0.5];
+leg                 = [];
+catcol              = []; 
+xcat                = [];
+flip                = 0;
+leglocation         = 'SouthEast';
+plotfcn             = 'mean';
+errorfcn            = 'stderr';
+numxvars            = size(xvar,2);
+XTickLabel          = 0;
+XCoord              = 'auto';
+split               = [];
+numsplitvars        = 0;
+goodindx            = [1:size(y,1)]';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Deal with the varargin's
@@ -415,21 +419,25 @@ for c=1:numsplitcat
         y=PLOT(c,l_from(seg):l_to(seg));
         h(c)=plot(x,y);
         set(h(c),'Color',fm.linecolor,'LineWidth',fm.linewidth,'LineStyle',fm.linestyle,'Marker',fm.markertype,'MarkerSize',fm.markersize,'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);
-        
+                
         if (~isempty(errorfcn))
             EU=ERROR_UP(c,l_from(seg):l_to(seg));
             ED=ERROR_DOWN(c,l_from(seg):l_to(seg));
             if (strcmp(fm.errorbars,'plusminus'))
-                plt.helper.dataframe.errorbars(x,y',[ED' EU'],'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'error_dir','both','cap',fm.errorcap);
+                [errhandle] = plt.helper.dataframe.errorbars(x,y',[ED' EU'],'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'error_dir','both','cap',fm.errorcap);
             elseif (strcmp(fm.errorbars,'shade'))
                 i=find(~isnan(y+EU)); 
                 Y=[y(i)+EU(i) fliplr(y(i)-ED(i))];
                 X=[x(i)' fliplr(x(i)')];
-                h=patch(squeeze(X), squeeze(Y), fm.linecolor);
-                set (h, 'FaceColor',fm.shadecolor,'EdgeColor','none','Facealpha',fm.transp);
-                uistack(h,'down');
+                errhandle =patch(squeeze(X), squeeze(Y), fm.linecolor);
+                set (errhandle, 'FaceColor',fm.shadecolor,'EdgeColor','none','Facealpha',fm.transp);
+                uistack(errhandle,'down');
             end;
         end;
+        
+        % set tags for data and error bars
+        set(h(c),'tag',num2str(c));
+        set(errhandle,'tag',num2str(c));
     end;
 end;
 

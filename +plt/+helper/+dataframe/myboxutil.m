@@ -89,23 +89,25 @@ yy3 = [med med];
 % The difference is the choice of x and y in the plot command.
 if ~F.flip
     handle=patch(xx2,yy2,F.fillcolor);
-    set(plot(x1,[q3 upadj],'k-',x1,[loadj q1],'k-'),'Color',F.linecolor,'LineWidth',F.whiskerwidth);             % whiskers
-    set(plot(x2,[loadj loadj],'k-',x2,[upadj upadj],'k-'),'Color',F.linecolor,'LineWidth',F.whiskerwidth);        % upper / lower line  
-    set(plot(xx2,yy2,'k-'),'Color',F.linecolor,'LineWidth',F.linewidth);                                        % box
-    set(plot(xx3,yy3,'k-'),'Color',F.mediancolor,'LineWidth',F.medianwidth);                                          % median line
+    set(handle,'tag',F.tag);
+    set(plot(x1,[q3 upadj],'k-',x1,[loadj q1],'k-'),'Color',F.linecolor,'LineWidth',F.whiskerwidth,'tag',F.tag);             % whiskers
+    set(plot(x2,[loadj loadj],'k-',x2,[upadj upadj],'k-'),'Color',F.linecolor,'LineWidth',F.whiskerwidth,'tag',F.tag);        % upper / lower line  
+    set(plot(xx2,yy2,'k-'),'Color',F.linecolor,'LineWidth',F.linewidth,'tag',F.tag);                                        % box
+    set(plot(xx3,yy3,'k-'),'Color',F.mediancolor,'LineWidth',F.medianwidth,'tag',F.tag);                                          % median line
     if (length(yy)>0)
 %         set(plot(xx,yy,'k.'),'Marker',F.markertype,'MarkerSize',F.markersize,'MarkerEdgeColor',F.markercolor,'MarkerFaceColor',F.markerfill);                                    % symbols
-        set(plot(xx,yy,'k.'),'Marker',F.markertype,'MarkerSize',F.markersize,'MarkerEdgeColor','k','MarkerFaceColor','k');                                    % symbols        
+        set(plot(xx,yy,'k.'),'Marker',F.markertype,'MarkerSize',F.markersize,'MarkerEdgeColor','k','MarkerFaceColor','k','tag',F.tag);                                    % symbols        
     end;
 else
     handle=patch(yy2,xx2,F.fillcolor);
-    set(plot([q3 upadj],x1,'k-',[loadj q1],x1,'k-'),'Color',F.linecolor,'LineWidth',F.whiskerwidth);             % whiskers
-    set(plot([loadj loadj],x2,'k-',[upadj upadj],x2,'k-'),'Color',F.linecolor,'LineWidth',F.whiskerwidth);        % upper / lower line  
-    set(plot(yy2,xx2,'k-'),'Color',F.linecolor,'LineWidth',F.linewidth);                                        % box
-    set(plot(yy3,xx3,'k-'),'Color',F.mediancolor,'LineWidth',F.medianwidth);                                          % median line
+    set(handle,'tag',F.tag);
+    set(plot([q3 upadj],x1,'k-',[loadj q1],x1,'k-'),'Color',F.linecolor,'LineWidth',F.whiskerwidth,'tag',F.tag);             % whiskers
+    set(plot([loadj loadj],x2,'k-',[upadj upadj],x2,'k-'),'Color',F.linecolor,'LineWidth',F.whiskerwidth,'tag',F.tag);        % upper / lower line  
+    set(plot(yy2,xx2,'k-'),'Color',F.linecolor,'LineWidth',F.linewidth,'tag',F.tag);                                        % box
+    set(plot(yy3,xx3,'k-'),'Color',F.mediancolor,'LineWidth',F.medianwidth,'tag',F.tag);                                          % median line
     if (length(yy)>0)
 %         set(plot(yy,xx,'k.'),'Marker',F.markertype,'MarkerSize',F.markersize,'MarkerEdgeColor',F.markercolor,'MarkerFaceColor',F.markerfill);                                    % symbols
-        set(plot(yy,xx,'k.'),'Marker',F.markertype,'MarkerSize',F.markersize,'MarkerEdgeColor','k','MarkerFaceColor','k');                                    % symbols        
+        set(plot(yy,xx,'k.'),'Marker',F.markertype,'MarkerSize',F.markersize,'MarkerEdgeColor','k','MarkerFaceColor','k','tag',F.tag);                                    % symbols        
     end;
 end;
 

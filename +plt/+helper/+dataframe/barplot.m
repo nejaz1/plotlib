@@ -47,31 +47,35 @@ function [x_coord,PLOT,ERROR]=barplot(xvar,y,varargin)
 % v.1.4 Make CAT option work properly like intended 
 if (nargin==1 & length(x(:))==1 & ishandle(x)), resizefcn(x); return; end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Set defaults for all plots 
-F.facecolor={[0.5 0.5 0.5],[1 1 1],[0 0 0],[1 1 0],[0 1 1],[1 0 1]};
-F.edgecolor=[0 0 0];
-F.linewidth=1;
-F.errorwidth=1;
-F.errorcolor=[0 0 0];
-flip=0;
-barwidth=1;
-capwidth=0.2;
-gapwidth=[0.5 0 0 0];
-leg=[];
-leglocation='NorthWest';
-plotfcn='nanmean';
-errorfcn='stderr';
-numxvars=size(xvar,2);
-split=[];numsplitvars=0;
-goodindx=[1:size(y,1)]';
+%% 0. House keeping parameters
+%   - determine matlab version
+versionNum          = plt.helper.matlab_version;
+
+%   - set internal parameters
+F.facecolor         = {[0.5 0.5 0.5],[1 1 1],[0 0 0],[1 1 0],[0 1 1],[1 0 1]};
+F.edgecolor         = [0 0 0];
+F.linewidth         = 1;
+F.errorwidth        = 1;
+F.errorcolor        = [0 0 0];
+dir                 = 'vert';
+barwidth            = 1;
+capwidth            = 0.2;
+gapwidth            = [0.5 0 0 0];
+leg                 = [];
+leglocation         = 'NorthWest';
+plotfcn             = 'nanmean';
+errorfcn            = 'stderr';
+numxvars            = size(xvar,2);
+split               = [];
+numsplitvars        = 0;
+goodindx            = [1:size(y,1)]';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Deal with the varargin's 
 c=1;
 while(c<=length(varargin))
     switch(varargin{c})
-         case {'gapwidth','XTickLabel','plotfcn','errorfcn','leg','leglocation','barwidth','flip','capwidth'}
+         case {'gapwidth','XTickLabel','plotfcn','errorfcn','leg','leglocation','barwidth','dir','capwidth'}
             eval([varargin{c} '=varargin{c+1};']);
             c=c+2;
         case {'facecolor','edgecolor','linewidth','errorcolor','errorwidth'}
@@ -108,6 +112,15 @@ while(c<=length(varargin))
         otherwise
             error('Unknown option\n');
     end;
+end;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% check direction to plot
+switch(dir)
+    case 'vert'
+        flip = 0;
+    case 'horz'
+        flip = 1;
 end;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -238,11 +251,11 @@ for i=1:length(x_coord)
     end; 
    if (~flip) 
         h(i)=patch(XX,YY,fm.facecolor);
-        plt.helper.dataframe.errorbars(x_coord(i),PLOT(i),ERROR(i),'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'cap',capwidth);
+        errhandle = plt.helper.dataframe.errorbars(x_coord(i),PLOT(i),ERROR(i),'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'cap',capwidth);
    else 
         h(i)=patch(YY,XX,fm.facecolor);
-        plt.helper.dataframe.errorbars(PLOT(i),x_coord(i),ERROR(i),'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,...
-            'cap',capwidth,'orientation','horz');
+        errhandle = plt.helper.dataframe.errorbars(PLOT(i),x_coord(i),ERROR(i),'linecolor',fm.errorcolor,'linewidth',fm.errorwidth,...
+                    'cap',capwidth,'orientation','horz');
    end; 
    if (isfield(F,'edgecolor'))
         set(h(i),'EdgeColor',fm.edgecolor);
@@ -253,6 +266,10 @@ for i=1:length(x_coord)
     if (isfield(F,'linewidth'))
         set(h(i),'LineWidth',fm.linewidth);
     end;
+    
+    % set data tags
+    set(h(i),'tag',num2str(i));
+    set(errhandle,'tag',num2str(i));
 end;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

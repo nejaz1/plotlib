@@ -51,41 +51,50 @@ if (n>1)
     error('data has to be a column-vector');
 end
 
-% Set defaults for all plots
-colormap=hot;
-markersize=4;
-markertype= {'o','o','o','o','o','o','s','s','s','s','s','s','v','v','v','v','v','v'};
-markercolor={[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1]};
-markerfill={[1 1 1],[1 1 1],[1 1 1],[0 0 0],[1 0 0],[0 0 1],[1 1 1],[1 1 1],[1 1 1],[0 0 0],[1 0 0],[0 0 1],[1 1 1],[1 1 1],[1 1 1],[0 0 0],[1 0 0],[0 0 1]};
-draworig=0;
-identity=0; 
-printcorr=0;
-regression=[];
-intercept=1;
-polyorder=1;
-label=[];
-labelformat='%d';
-wfun='bisquare';
-leg=[];
-r2=[];t=[];
-b=[];p=[];
-CAT=[];
-leglocation='SouthEast';
-% Deal with the varargin's
-split=[];subset=ones(size(y,1),1);color=[];
-bubble=[];
-bubble_minsize=3;
-bubble_maxsize=30;
-yaxisIncl=[];
-xaxisIncl=[];
-alpha=0.5;
+%% 0. House keeping parameters
+%   - determine matlab version
+versionNum          = plt.helper.matlab_version;
 
-variables={'markertype','markercolor','markerfill','markersize','CAT',...
+%   - set internal parameters
+colormap        = hot;
+markersize      = 4;
+markertype      = {'o','o','o','o','o','o','s','s','s','s','s','s','v','v','v','v','v','v'};
+markercolor     = {[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1],[0 0 0],[1 0 0],[0 0 1]};
+markerfill      = {[1 1 1],[1 1 1],[1 1 1],[0 0 0],[1 0 0],[0 0 1],[1 1 1],[1 1 1],[1 1 1],[0 0 0],[1 0 0],[0 0 1],[1 1 1],[1 1 1],[1 1 1],[0 0 0],[1 0 0],[0 0 1]};
+draworig        = 0;
+identity        = 0; 
+printcorr       = 0;
+regression      = [];
+intercept       = 1;
+polyorder       = 1;
+label           = [];
+labelformat     = '%d';
+wfun            = 'bisquare';
+leg             = [];
+r2              = [];
+t               = [];
+b               = [];
+p               = [];
+CAT             = [];
+leglocation     = 'SouthEast';
+
+% Deal with the varargin's
+split           = [];
+subset          = ones(size(y,1),1);
+color           = [];
+bubble          = [];
+bubble_minsize  = 3;
+bubble_maxsize  = 30;
+sizedata        = 72;
+yaxisIncl       = [];
+xaxisIncl       = [];
+
+variables={'markertype','markercolor','markerfill','markersize','sizedata','CAT',...
     'subset','split','leg','leglocation','color','label',...
     'regression','polyorder','intercept',...
     'colormap',...
     'bubble','bubble_minsize','bubble_maxsize',...
-    'xaxisIncl','yaxisIncl','alpha'};
+    'xaxisIncl','yaxisIncl','facealpha','edgealpha'};
 flags={'draworig','printcorr','identity'};
 
 vararginoptions(varargin,variables,flags);
@@ -117,10 +126,14 @@ if (~isempty(CAT))
      end;
 end;
 
-F.markersize=markersize;
-F.markertype=markertype;
-F.markercolor=markercolor;
-F.markerfill=markerfill;
+F.markersize    = markersize;
+F.markertype    = markertype;
+F.markercolor   = markercolor;
+F.markerfill    = markerfill;
+F.facealpha     = facealpha;
+F.edgealpha     = edgealpha;
+F.sizedata      = sizedata;
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % re-code cell array
@@ -204,30 +217,48 @@ for c=1:numsplitcat
         end;
     end;
     
-    % calculate saturated colour for colouring scatterplot dots
-    fm.markerfill = plt.helper.get_colours_alpha(fm.markercolor,alpha);
+    % plot the basic scatter points
+    if versionNum<8.
+        h(c)=plot(D{c,2}(:,1),D{c,2}(:,2),'ko');
+    else 
+        h(c)=scatter(D{c,2}(:,1),D{c,2}(:,2),'ko');
+    end;
     
-    h(c)=plot(D{c,2}(:,1),D{c,2}(:,2),'ko');
+    % format the data points
     if (isempty(color) & isempty(bubble))
-        set(h(c),'Marker',fm.markertype,'MarkerSize',fm.markersize,...
-                'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);
-    elseif (~isempty(color))
-        for i=1:length(x)
-            set(plot(x(i),y(i),'k.'),'Marker',fm.markertype,'MarkerSize',fm.markersize,...
-                'MarkerEdgeColor',colormap(colorz(i),:),'MarkerFaceColor',colormap(colorz(i),:));hold on;
-        end;
-    elseif (~isempty(bubble))
-        for i=1:length(x)
-            set(plot(x(i),y(i),'k.'),'Marker',fm.markertype,'MarkerSize',bubble(i)*(bubble_maxsize-bubble_minsize)+bubble_minsize,...
-                'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);hold on;
+        
+        if versionNum<8.4
+            fm.markerfill = plt.helper.get_colours_alpha(fm.markercolor,facealpha);
+            set(h(c),'Marker',fm.markertype,'MarkerSize',fm.markersize,...
+                    'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);
+        else
+            set(h(c),'Marker',fm.markertype,'SizeData',fm.sizedata,...
+                    'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markercolor,...
+                    'MarkerFaceAlpha',fm.facealpha,'MarkerEdgeAlpha',fm.edgealpha);
         end;
     end;
+%     elseif (~isempty(color))
+%         for i=1:length(x)
+%             set(plot(x(i),y(i),'k.'),'Marker',fm.markertype,'MarkerSize',fm.markersize,...
+%                 'MarkerEdgeColor',colormap(colorz(i),:),'MarkerFaceColor',colormap(colorz(i),:));hold on;
+%         end;
+%     elseif (~isempty(bubble))
+%         for i=1:length(x)
+%             set(plot(x(i),y(i),'k.'),'Marker',fm.markertype,'MarkerSize',bubble(i)*(bubble_maxsize-bubble_minsize)+bubble_minsize,...
+%                 'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);hold on;
+%         end;
+%     end;
     
     if (~isempty(regression))
-        if ~strcmp(regression,'none')
-            [r2(c),b(:,c),t(:,c),p(:,c)] = doregress(D{c,2}(:,1),D{c,2}(:,2),fm.markercolor, regression, polyorder, intercept,wfun);
+        if ~strcmp(regression,'none') && ~strcmp(regression,'off')
+            [r2(c),b(:,c),t(:,c),p(:,c),reghandle] = doregress(D{c,2}(:,1),D{c,2}(:,2),fm.markercolor, regression, polyorder, intercept,wfun);
         end;
     end;
+    
+    % add data tag to scatter points and line
+    set(h(c),'tag',num2str(c));
+    set(reghandle,'tag',num2str(c));
+    
 end;
 if (ylims(1)==ylims(2))
     ylims=ylims+[-0.1 0.1];
@@ -256,23 +287,25 @@ if (~isempty(label))
         xoffset=(xlims(2)-xlims(1))/40;
         yoffset=(ylims(2)-ylims(1))/40;
         for i=1:length(x)
-            text(x(i)+xoffset,y(i)+yoffset,label{i});
+            tl = text(x(i)+xoffset,y(i)+yoffset,label{i});
         end;
     else
         label=label(find(subset));
         xoffset=(xlims(2)-xlims(1))/40;
         yoffset=(ylims(2)-ylims(1))/40;
         for i=1:length(x)
-            text(x(i)+xoffset,y(i)+yoffset,sprintf(labelformat,label(i)));
+            tl = text(x(i)+xoffset,y(i)+yoffset,sprintf(labelformat,label(i)));
         end;
     end;
+    set(tl,'tag','text');
 end;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % deals with corr flag (assumes regression has been calculated)
 if (printcorr)
 	xoffset=0.05*(xmax-xmin);
 	yoffset=0.05*(ymax-ymin);
-	text(xmin+xoffset,ymax-yoffset,sprintf('R=%2.2f',sqrt(r2)));
+	tl = text(xmin+xoffset,ymax-yoffset,sprintf('R=%2.2f',sqrt(r2)));
+    set(tl,'tag','text');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -290,7 +323,7 @@ figure(gcf);    % Bring figure to front on Mac platform
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Perform regression analysis 
-function [r2,b,t,p]=doregress(x,y,color,type, polyorder, intercept,wfun)
+function [r2,b,t,p,h]=doregress(x,y,color,type, polyorder, intercept,wfun)
 
 offset = [0 0]; % Offset of data 
 

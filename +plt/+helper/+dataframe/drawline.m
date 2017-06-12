@@ -42,5 +42,5 @@ else
     l=line(y,x1,'Color',color);
 end;
 
-set(l,'linewidth',linewidth,'linestyle',linestyle);
+set(l,'linewidth',linewidth,'linestyle',linestyle,'tag','line');
 uistack(l,'bottom');

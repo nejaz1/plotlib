@@ -1,4 +1,4 @@
-function e=errorbars(x,y,E,varargin)
+function [h]=errorbars(x,y,E,varargin)
 % ERRORBARS: adds errobars (+/-) to a plot
 % Synopsis
 %   errorbars(x,y,E,varargin)

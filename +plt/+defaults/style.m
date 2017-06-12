@@ -12,13 +12,14 @@ function [canvas,colours,opt] = style(styID)
 opt = [];
 switch(styID)
     case 'default'
-        colours             = {'blue','green','red','black','lightgray','darkgray'};
-        canvas              = 'blackonwhite';
-        opt.save.journal    = 'brain';
+        colours                 = {'blue','green','red','orange','aqua'};
+        canvas                  = 'blackonwhite';
+        opt.save.journal        = 'brain';
+        opt.legend.leglocation  = 'eastoutside';
     case 'gray'
-        colours             = {'black','lightgray','darkgray','black','lightgray','darkgray'};
-        canvas              = 'blackonwhite';
-        opt.save.journal    = 'brain';
+        colours                 = {'black','lightgray','darkgray','black','lightgray','darkgray'};
+        canvas                  = 'blackonwhite';
+        opt.save.journal        = 'brain';
         opt.general.markertype  = {'o','v','^'};
         opt.general.linestyle   = {'-','-','-','--','--','--'};
 end;

@@ -40,39 +40,42 @@ function [X,Y,XERR,YERR]=xyplot(xvar,yvar,cat,varargin)
 % v1.0: 8/7/07: Joern diedrichsen 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Set defaults for all plots 
-F.linecolor=[0.8 0.8 0.8];
-F.linewidth=1;
-F.linestyle='-';
-F.fillcolor=[0.8 0.8 0.8];
-F.markertype = 'o';
-F.markercolor=[0 0 0];
-F.markerfill=[0 0 0];
-F.markersize=4;
-F.flip=0;
-F.errorwidth=1;
-F.errorcolor=[0.8 0.8 0.8];
-F.errorbars='plusminus';
-gap=[1 0.7 0.5 0.5];
-leg=[];
-leglocation='SouthEast';
+%% 0. House keeping parameters
+%   - determine matlab version
+versionNum          = plt.helper.matlab_version;
 
-plotfcn=[]; 
-plotfcn_x='mean';
-plotfcn_y='mean';
-errorfcn_x='stderr';
-errorfcn_y='stderr';
-errorval_x=[]; 
-errorval_y=[]; 
-errorfcn=[];
+%   - set internal parameters
+F.linecolor         = [0.8 0.8 0.8];
+F.linewidth         = 1;
+F.linestyle         = '-';
+F.fillcolor         = [0.8 0.8 0.8];
+F.markertype        = 'o';
+F.markercolor       = [0 0 0];
+F.markerfill        = [0 0 0];
+F.markersize        = 4;
+F.flip              = 0;
+F.errorwidth        = 1;
+F.errorcolor        = [0.8 0.8 0.8];
+F.errorbars         = 'plusminus';
+gap                 = [1 0.7 0.5 0.5];
+leg                 = [];
+leglocation         = 'SouthEast';
 
-numxvars=size(xvar,2);
-XTickLabel=0;
-XCoord='auto';
-split=[];
-numsplitvars=0;
-subset=ones(size(xvar,1),1);
+plotfcn             = []; 
+plotfcn_x           = 'mean';
+plotfcn_y           = 'mean';
+errorfcn_x          = 'stderr';
+errorfcn_y          = 'stderr';
+errorval_x          = []; 
+errorval_y          = []; 
+errorfcn            = [];
+
+numxvars            = size(xvar,2);
+XTickLabel          = 0;
+XCoord              = 'auto';
+split               = [];
+numsplitvars        = 0;
+subset              = ones(size(xvar,1),1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Deal with the varargin's 
@@ -259,13 +262,19 @@ for c=1:numsplitcat
     end;
     h(c)=plot(X(c,:)',Y(c,:)');
     set(h(c),'Color',fm.linecolor,'LineWidth',fm.linewidth,'LineStyle',fm.linestyle,'Marker',fm.markertype,'MarkerSize',fm.markersize,'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill); 
+    set(h(c),'tag',num2str(c));
+    
     switch (F.errorbars) 
         case 'plusminus_wocap'
-            plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Yerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','vert','error_dir','both','cap',0);
-            plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Xerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','horz','error_dir','both','cap',0);
+            errhandle = plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Yerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','vert','error_dir','both','cap',0);
+            set(errhandle,'tag',num2str(c));
+            errhandle = plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Xerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','horz','error_dir','both','cap',0);
+            set(errhandle,'tag',num2str(c));
         case 'plusminus'
-            plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Yerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','vert','error_dir','both');
-            plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Xerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','horz','error_dir','both');
+            errhandle = plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Yerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','vert','error_dir','both');
+            set(errhandle,'tag',num2str(c));
+            errhandle = plt.helper.dataframe.errorbars(X(c,:)',Y(c,:)',Xerr(c,:)','linecolor',fm.errorcolor,'linewidth',fm.errorwidth,'orientation','horz','error_dir','both');
+            set(errhandle,'tag',num2str(c));
         case 'ellipse' 
             for n=1:length(X(c,:)')
                 if (~isnan(Xerr(c,n))&~isnan(Yerr(c,n))&~isnan(XYerr(c,n))) % If observations present
@@ -280,6 +289,7 @@ for c=1:numsplitcat
                 C(2,:)=C(2,:)+Y(c,n);
                 pa=patch(C(1,:),C(2,:),'k');
                 set(pa,'FaceColor','none','LineWidth',fm.errorwidth,'EdgeColor',fm.errorcolor,'LineStyle','-');
+                set(pa,'tag',num2str(c));
                 end; 
             end; 
         case 'none'

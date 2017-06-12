@@ -55,35 +55,41 @@ function myboxplot(group,y,varargin)
 % v1.3: flag 'xtickoff' leaves X-axis labels free 25/01/09
 
 if (nargin==1 & length(y(:))==1 & ishandle(y)), resizefcn(y); return; end
-% Set defaults for all plots
-F.plotall=2;
-F.linecolor=[0.8 0.8 0.8];
-F.linewidth=1;
-F.fillcolor=[0.8 0.8 0.8];
-F.mediancolor=[1 1 1];
-F.medianwidth=1;
-F.whiskerwidth=1;
-F.whiskerlength = 1.5;
-F.notch = 0;
-F.whissw = 0; % don't plot whisker inside the box.
-F.markertype = 'o';
-F.markercolor=[0 0 0];
-F.markerfill=[0 0 0];
-F.markersize=4;
-F.linscale=0;
-F.boxwidth=0.75;
-gapwidth=[1 0.7 0.5 0.5];
-F.xtickoff=1;
-split=[];
-leg=[];
-F.flip = 0;
-F.alpha = 0.1;
-leglocation='SouthEast';
+
+
+%% 0. House keeping parameters
+%   - determine matlab version
+versionNum          = plt.helper.matlab_version;
+
+%   - set internal parameters
+F.plotall           = 2;
+F.linecolor         = [0.8 0.8 0.8];
+F.linewidth         = 1;
+F.fillcolor         = [0.8 0.8 0.8];
+F.mediancolor       = [1 1 1];
+F.medianwidth       = 1;
+F.whiskerwidth      = 1;
+F.whiskerlength     = 1.5;
+F.notch             = 0;
+F.whissw            = 0; % don't plot whisker inside the box.
+F.markertype        = 'o';
+F.markercolor       = [0 0 0];
+F.markerfill        = [0 0 0];
+F.markersize        = 4;
+F.linscale          = 0;
+F.boxwidth          = 0.75;
+F.facealpha         = 0.1;
+gapwidth            = [1 0.7 0.5 0.5];
+F.xtickoff          = 1;
+split               = [];
+leg                 = [];
+dir                 = 'vert';
+leglocation         = 'SouthEast';
 % Deal with the varargin's
 c=1;
 while(c<=length(varargin))
     switch(varargin{c})
-    case {'gapwidth','linscale','split','subset','leg','leglocation'}
+    case {'gapwidth','linscale','split','subset','leg','leglocation','dir'}
         eval([varargin{c} '=varargin{c+1};']);c=c+2;
     case {'xtickoff'}
         F.xtickoff=1;c=c+1;
@@ -91,7 +97,7 @@ while(c<=length(varargin))
 %         F.flip=1;c=c+1;
     case {'boxwidth','outliersymbol','whiskerlength','whiskerwidth','linecolor','linewidth',...
                 'fillcolor','mediancolor','medianwidth','notch','markersize','markertype',...
-                'markercolor','markerfill','plotall','alpha','flip'};
+                'markercolor','markerfill','plotall','facealpha'};
         eval(['F.',varargin{c} '=varargin{c+1};']);c=c+2;
     case 'style_twoblock'
         F.plotall=2;
@@ -162,6 +168,15 @@ while(c<=length(varargin))
     otherwise
         error(sprintf('Unknown option: %s',varargin{c}));
     end;
+end;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% plotting direction
+switch(dir)
+    case 'vert'
+        F.flip = 0;
+    case 'horz'
+        F.flip = 1;
 end;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -285,7 +300,8 @@ for c=1:num_cat
 %   F.mediancolor
 %   F.fillcolor
         fm.mediancolor = fm.linecolor;
-        fm.fillcolor   = plt.helper.get_colours_alpha(fm.linecolor,fm.alpha);
+        fm.fillcolor   = plt.helper.get_colours_alpha(fm.linecolor,fm.facealpha);
+        fm.tag         = num2str(c);          
         [dummy,h(c)]   = plt.helper.dataframe.myboxutil(D{c,2}(~isnan(D{c,2})),x_coord(c),fm);
     end;
 end;
@@ -297,7 +313,7 @@ if (~F.xtickoff)
             ht = text(x_coord(j),ylim(1),glabels{j,1},'HorizontalAlignment','center',...
                 'VerticalAlignment','top', 'UserData','xtick');
         else
-              ht = text(xlim(1),x_coord(j),glabels{j,1},'HorizontalAlignment','center',...
+            ht = text(xlim(1),x_coord(j),glabels{j,1},'HorizontalAlignment','center',...
                   'VerticalAlignment','top', 'UserData','ytick');
         end;
     end

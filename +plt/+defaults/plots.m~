@@ -17,19 +17,16 @@ opt.bar.gapwidth        = [1 0.2 0.1 0];
 opt.bar.capwidth        = 0.15 * opt.bar.barwidth;
 opt.bar.edgecolor       = 'none';
 opt.bar.errorcolor      = plt.defaults.colours('black');
-opt.bar.dir             = 'vert';
 
 %% trace plot
 opt.trace.errorfcn      = 'stderr';
-opt.trace.facealpha     = 1;
-opt.trace.erroralpha    = 0.2;
+opt.trace.alpha         = 1;
 
 %% scatter plot
 opt.scatter.regression  = 'linear';
 opt.scatter.intercept   = 1;
-opt.scatter.facealpha   = 0.55;
-opt.scatter.edgealpha   = 0.55;
-opt.scatter.sizedata    = 50;
+opt.scatter.facealpha   = 0.45;
+opt.scatter.edgealpha   = 0.4;
 
 %% xy plot
 opt.xy.plotfcn_x        = 'mean';
@@ -41,7 +38,7 @@ opt.hist.numcat         = 25;
 opt.hist.barwidth       = 1;
 opt.hist.facealpha      = 0.65;
 opt.hist.edgealpha      = 0.85;
-opt.hist.type           = 'line';
+opt.hist.type           = 'bar';
 
 %% box plot
 opt.box.plotall         = 1;
@@ -53,23 +50,8 @@ opt.box.markersize      = 4;
 opt.box.linewidth       = 1.5;
 opt.box.medianwidth     = 1.5;
 opt.box.whiskerwidth    = 1.5;
-opt.box.facealpha       = 0.3;
-opt.box.dir             = 'vert';
-
-%% dot plot
-opt.dot.sizedata        = 35;
-opt.dot.meanwidth       = 3;
-opt.dot.facealpha       = 0.6;
-opt.dot.edgealpha       = 0.1;
-opt.dot.plotall         = 2;
-opt.dot.notch           = 0;
-opt.dot.boxwidth        = 0.6;
-opt.dot.gapwidth        = [0.8 0.3 0.1 0];
-opt.dot.outliersymbol   = '0';
-opt.dot.markersize      = 4;
-opt.dot.linewidth       = 1.5;
-opt.dot.whiskerwidth    = 1.5;
-opt.dot.dir             = 'vert';
+opt.box.alpha           = 0.3;
+opt.box.flip            = 0;
 
 %% image plot
 opt.image.YDir          = 'reverse';
