@@ -25,7 +25,8 @@ end;
 %       - get canvas style & plotting colours
 %       - add plotting parameters for individual plots
 defOpt      = plt.defaults.general(canvas,colours);
+defOpt      = addstruct(defOpt,plt.defaults.plots);
 opt         = plt.helper.updateUserOptions(defOpt,opt);
-opt         = addstruct(opt,plt.defaults.plots);
+% plotOpt     = addstruct(opt,plt.defaults.plots);
 
 varargout = {opt};

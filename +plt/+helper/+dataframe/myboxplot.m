@@ -320,7 +320,7 @@ if (~F.xtickoff)
 end
 
 % Add legend if necessary
-if (~isempty(split))
+if (~isempty(split) && ~isempty(split_conv.isnum))
     Split_groups=vertcat(D{:,1});
     Split_groups=Split_groups(:,numlvars+1:end);
     plt.helper.dataframe.plotlegend(h(1:numsplitcat),leg,Split_groups(1:numsplitcat,:),split_conv,leglocation);

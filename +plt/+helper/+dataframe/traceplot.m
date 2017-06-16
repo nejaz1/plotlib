@@ -137,11 +137,11 @@ for c=1:numcats
         ERR(c,:)=fcneval(errorfcn,A{c,2});
         p(c)=plotshade(t,PLOT(c,:),ERR(c,:),'patchcolor',fm.patchcolor,'transp',fm.transp);hold on;
         set(p(c),'facealpha',fm.erroralpha);
+        set(p(c),'tag',num2str(c));
     end;
     
     % set data and error bar tags
     set(h(c),'tag',num2str(c));
-    set(p(c),'tag',num2str(c));
 end;
 set(gca,'Box','off','NextPlot',holding);
 if (~isempty(XLim))

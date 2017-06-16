@@ -69,6 +69,9 @@ errorfcn_y          = 'stderr';
 errorval_x          = []; 
 errorval_y          = []; 
 errorfcn            = [];
+facealpha           = 0.55;
+edgealpha           = 0.55;
+sizedata            = 72;
 
 numxvars            = size(xvar,2);
 XTickLabel          = 0;
@@ -83,10 +86,11 @@ c=1;
 while(c<=length(varargin))
     switch(varargin{c})
         case {'XTickLabel','XCoord','plotfcn','errorfcn','errorfcn_up','errorfcn_down','leg','leglocation','split','subset','transformfcn',...
-                'plotfcn_x','plotfcn_y','errorfcn_x','errorfcn_y','errorval_x','errorval_y'}
+                'plotfcn_x','plotfcn_y','errorfcn_x','errorfcn_y','errorval_x','errorval_y','facealpha','edgealpha','sizedata',...
+                'markersize'}
             eval([varargin{c} '=varargin{c+1};']);
             c=c+2;
-        case {'markertype','markerfill','linecolor','linestyle','linewidth','markercolor','markersize','errorcolor','errorwidth','errorbars'}
+        case {'markertype','markerfill','linecolor','linestyle','linewidth','markercolor','errorcolor','errorwidth','errorbars'}
             eval(['F.' varargin{c} '=varargin{c+1};']);
             c=c+2;
         case 'avrgcorr'
@@ -158,6 +162,13 @@ while(c<=length(varargin))
             error(sprintf('Unknown option: %s',varargin{c}));
     end;
 end;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% copy parameters of interest
+F.facealpha     = facealpha;
+F.edgealpha     = edgealpha;
+F.sizedata      = sizedata;
+F.markersize    = markersize;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Check functions 
@@ -260,8 +271,12 @@ for c=1:numsplitcat
             fm=setfield(fm,format{f},field{mod(c-1,length(field))+1}); % set formating structure for this category
         end;
     end;
-    h(c)=plot(X(c,:)',Y(c,:)');
-    set(h(c),'Color',fm.linecolor,'LineWidth',fm.linewidth,'LineStyle',fm.linestyle,'Marker',fm.markertype,'MarkerSize',fm.markersize,'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill); 
+    
+    % plot the basic scatter points, tag the plot
+    h(c)            = plot(X(c,:)',Y(c,:)');
+    fm.markerfill   = plt.helper.get_colours_alpha(fm.markercolor,facealpha);
+    set(h(c),'Color',fm.linecolor,'LineWidth',fm.linewidth,'LineStyle',fm.linestyle,...
+             'Marker',fm.markertype,'MarkerSize',fm.markersize,'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill); 
     set(h(c),'tag',num2str(c));
     
     switch (F.errorbars) 

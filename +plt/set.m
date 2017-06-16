@@ -67,18 +67,14 @@ for hL=1:length(ax)
         case 'matlab.graphics.axis.Axes'
             % Set aspect ration for axis properties
             set(gcf, 'currentaxes', h);
-            eval(sprintf('axis %s',OPTS.ax));
+            eval(sprintf('axis %s',OPTS.ratio));
             
             % set tick direction for axis 
             set(h,'tickdir',OPTS.tickdir);
             
             % set precision for x and y tick labels
-            if ~isempty(OPTS.xprecision)
-                set(h,'xticklabel',num2str(get(h,'xtick')',OPTS.xprecision));
-            end;
-            if ~isempty(OPTS.yprecision)
-                set(h,'yticklabel',num2str(get(h,'ytick')',OPTS.yprecision));
-            end;
+            set(h.XAxis,'ticklabelformat',OPTS.xprecision);
+            set(h.YAxis,'ticklabelformat',OPTS.yprecision);
             
             % Calculating axis min and max 
             xLimAct     = get(h,'xlim');
