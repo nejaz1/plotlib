@@ -218,7 +218,7 @@ for c=1:numsplitcat
     end;
     
     % plot the basic scatter points
-    if versionNum<8.
+    if versionNum<8.4
         h(c)=plot(D{c,2}(:,1),D{c,2}(:,2),'ko');
     else 
         h(c)=scatter(D{c,2}(:,1),D{c,2}(:,2),'ko');
@@ -252,12 +252,12 @@ for c=1:numsplitcat
     if (~isempty(regression))
         if ~strcmp(regression,'none') && ~strcmp(regression,'off')
             [r2(c),b(:,c),t(:,c),p(:,c),reghandle] = doregress(D{c,2}(:,1),D{c,2}(:,2),fm.markercolor, regression, polyorder, intercept,wfun);
+            set(reghandle,'tag',num2str(c));
         end;
     end;
     
     % add data tag to scatter points and line
     set(h(c),'tag',num2str(c));
-    set(reghandle,'tag',num2str(c));
     
 end;
 if (ylims(1)==ylims(2))

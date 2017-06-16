@@ -31,7 +31,6 @@ opt.general.markersize      = 8;
 opt.general.errorwidth      = 1.5;
 opt.general.markertype      = 'o';
 opt.general.linestyle       = '-';        
-    
 
 %% 2. Legend
 opt.legend.leg              = 'auto';
@@ -42,14 +41,14 @@ opt.display.xlabel          = '';
 opt.display.ylabel          = '';
 opt.display.title           = '';
 opt.display.panel_title     = '';
-opt.display.ax              = 'normal';
 opt.display.legvisible      = 'on';
 opt.display.legorient       = 'vertical';
 opt.display.tickdir         = 'in';
-opt.display.xprecision      = [];
-opt.display.yprecision      = [];
+opt.display.ratio           = 'normal';
+opt.display.xprecision      = '%g';
+opt.display.yprecision      = '%g';
 
-%% 4. Font sizes
+%% 5. Font sizes
 opt.font.fontname           = opt.base.font_name;
 opt.font.fontunits          = 'points';
 opt.font.fontsize           = 12;
@@ -60,7 +59,7 @@ opt.font.panel_fontweight   = 'bold';
 opt.font.panel_horzalign    = 'right';
 opt.font.panel_vertalign    = 'baseline';
 
-%% 5. Canvas properties
+%% 6. Canvas properties
 opt.canvas.type             = canvas_type;
 opt.canvas.position         = opt.base.figure_position;
 opt.canvas.papertype        = 'a4';
@@ -69,8 +68,9 @@ opt.canvas.papermode        = 'auto';
 opt.canvas.menubar          = 'none';
 opt.canvas.resize           = 'on';
 opt.canvas.inverthardcopy   = 'off';
+opt.canvas.linewidth        = 1;
 
-%% 6. Save properties
+%% 7. Save properties
 opt.save.journal            = opt.base.save_journal;
 opt.save.style              = opt.base.save_style;
 opt.save.dpi                = 300;
@@ -80,7 +80,5 @@ opt.save.rendering          = 'painters';
 opt.save.ui                 = 'noui';
 opt.save.convertformat      = 'jpeg';
 opt.save.convertquality     = 'best';
-
-
 
 varargout   = {opt};

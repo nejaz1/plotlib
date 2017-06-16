@@ -31,8 +31,14 @@ drawnow;
       
 %% 3. set colours for canvas
 set(h,'color',canvas.bgcolor);
-set(ax,'xcolor',canvas.xcolor,'ycolor',canvas.ycolor,'color',canvas.axescolor);
 set(txt,'color',canvas.textcolor);
 set(leg,'textcolor',canvas.legtextcolor);
+if ~isempty(ax)
+    for a=1:length(ax)
+        set(ax(a),'xcolor',canvas.xcolor,'ycolor',canvas.ycolor,'color',canvas.axescolor);
+        set(ax(a).XAxis,'linewidth',canvas.linewidth);
+        set(ax(a).YAxis,'linewidth',canvas.linewidth);
+    end;
+end;
 
 

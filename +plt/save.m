@@ -41,6 +41,7 @@ sty.canvas = addstruct(sty.canvas,canvasOpt);
 %   - get save parameters
 saveOpt     = plt.defaults.save(sty.save.journal,save_style);
 sty.save    = plt.helper.updateUserOptions(sty.save,saveOpt);
+sty.save    = plt.helper.updateUserOptions(sty.save,userOpt);
 
 %% 1. Setup canvas properties
 plt.helper.set_canvas(sty.canvas);
