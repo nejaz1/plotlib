@@ -36,7 +36,7 @@ opt.xy.plotfcn_x        = 'mean';
 opt.xy.plotfcn_y        = 'mean';
 opt.xy.facealpha        = 0.55;
 opt.xy.edgealpha        = 0.55;
-opt.scatter.sizedata    = 50;
+opt.xy.sizedata         = 50;
 
 %% hist plot
 opt.hist.percent        = 0;

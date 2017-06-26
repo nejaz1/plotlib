@@ -86,11 +86,10 @@ c=1;
 while(c<=length(varargin))
     switch(varargin{c})
         case {'XTickLabel','XCoord','plotfcn','errorfcn','errorfcn_up','errorfcn_down','leg','leglocation','split','subset','transformfcn',...
-                'plotfcn_x','plotfcn_y','errorfcn_x','errorfcn_y','errorval_x','errorval_y','facealpha','edgealpha','sizedata',...
-                'markersize'}
+                'plotfcn_x','plotfcn_y','errorfcn_x','errorfcn_y','errorval_x','errorval_y','facealpha','edgealpha','sizedata'}
             eval([varargin{c} '=varargin{c+1};']);
             c=c+2;
-        case {'markertype','markerfill','linecolor','linestyle','linewidth','markercolor','errorcolor','errorwidth','errorbars'}
+        case {'markertype','markerfill','linecolor','linestyle','linewidth','markercolor','errorcolor','errorwidth','errorbars','markersize'}
             eval(['F.' varargin{c} '=varargin{c+1};']);
             c=c+2;
         case 'avrgcorr'
@@ -168,7 +167,6 @@ end;
 F.facealpha     = facealpha;
 F.edgealpha     = edgealpha;
 F.sizedata      = sizedata;
-F.markersize    = markersize;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Check functions 

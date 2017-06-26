@@ -1,8 +1,6 @@
 function hide_legend
 %% Description
 %   Turns off visibility of legend in the current axes object
-% Input
-%       'ax'                : 'y' or 'x' or 'both'
 %
 % Author
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
