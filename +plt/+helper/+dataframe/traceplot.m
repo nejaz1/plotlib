@@ -59,8 +59,8 @@ while(c<=length(varargin))
             c=c+2;
         % Style tabs: single value sets it for all values, cell array puts
         % in the cat structure 
-        case {'linewidth','linecolor','patchcolor','linestyle','transp','markertype','markersize','markercolor','markerfill',...
-              'facealpha','erroralpha'}
+        case {'linewidth','linecolor','patchcolor','linestyle','transp','markersize','markercolor','markerfill',...
+              'facealpha','erroralpha','markertype'}
             v=varargin{c+1}; 
             eval(['F.' varargin{c} '=v;']);  
             c=c+2;

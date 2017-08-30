@@ -12,7 +12,9 @@ function [canvas,colours,opt] = style(styID)
 opt = [];
 switch(styID)
     case 'default'
-        colours                 = {'blue','green','red','orange','aqua'};
+        colours                 = {'blue','green','red','orange','aqua','magenta','yellow','black'};
+        opt.general.linestyle   = {'-','-','-','-','-','-','-','-',...
+                                   '--','--','--','--','--','--','--','--'};
         canvas                  = 'blackonwhite';
         opt.save.journal        = 'brain';
         opt.legend.leglocation  = 'eastoutside';
