@@ -24,5 +24,13 @@ switch(styID)
         opt.save.journal        = 'brain';
         opt.general.markertype  = {'o','v','^'};
         opt.general.linestyle   = {'-','-','-','--','--','--'};
+    case 'nomarker'
+        colours                 = {'blue','green','red','orange','aqua','magenta','yellow','black'};
+        opt.general.linestyle   = {'-','-','-','-','-','-','-','-',...
+                                   '--','--','--','--','--','--','--','--'};
+        opt.general.markertype  = 'none';
+        canvas                  = 'blackonwhite';
+        opt.save.journal        = 'brain';
+        opt.legend.leglocation  = 'eastoutside';        
 end;
 
