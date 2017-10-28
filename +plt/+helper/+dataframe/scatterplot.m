@@ -146,6 +146,9 @@ end;
 goodindx=find(subset);
 y=y(goodindx,:);
 x=x(goodindx,:);
+if length(F.sizedata)>1
+    F.sizedata=F.sizedata(goodindx,:);
+end;
 if (~isempty(split))
     split=split(goodindx,:);
 end;
@@ -201,11 +204,18 @@ set(gca,'Box','off');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % deal with split
 form=fieldnames(F);
+SD = [];
 if (isempty(split))
     D{1,2}=[x y];
     numsplitcat=1;
 else
-    D=pidata(split,[x y]);
+    D               = pidata(split,[x y]);
+    if length(F.sizedata)>1
+        SD = pidata(split,F.sizedata);
+    else
+        SD = num2cell(unique(split));
+        SD = [SD num2cell(repmat(F.sizedata,length(unique(split)),1))];
+    end;
 end;
 [numsplitcat,dummy]=size(D);
 for c=1:numsplitcat
@@ -232,9 +242,15 @@ for c=1:numsplitcat
             set(h(c),'Marker',fm.markertype,'MarkerSize',fm.markersize,...
                     'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markerfill);
         else
-            set(h(c),'Marker',fm.markertype,'SizeData',fm.sizedata,...
-                    'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markercolor,...
-                    'MarkerFaceAlpha',fm.facealpha,'MarkerEdgeAlpha',fm.edgealpha);
+            if isempty(SD)
+                set(h(c),'Marker',fm.markertype,'SizeData',fm.sizedata,...
+                        'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markercolor,...
+                        'MarkerFaceAlpha',fm.facealpha,'MarkerEdgeAlpha',fm.edgealpha);
+            else
+                set(h(c),'Marker',fm.markertype,'SizeData',SD{c,2},...
+                        'MarkerEdgeColor',fm.markercolor,'MarkerFaceColor',fm.markercolor,...
+                        'MarkerFaceAlpha',fm.facealpha,'MarkerEdgeAlpha',fm.edgealpha);
+            end;
         end;
     end;
 %     elseif (~isempty(color))
