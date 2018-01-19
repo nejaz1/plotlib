@@ -4,7 +4,8 @@ function varargout = colours(colourID)
 %   colours used in the plotting library. If function is called without any
 %   input, it displays a list of available colours.
 % Input
-%   colourID:      a cell string of colourIDs can be chosen:
+%   colourID:      can be a cell string or a triplet of RGB values
+%                  a cell string of colourIDs can be chosen:
 %                       - black         RGB: 0, 0, 0
 %                       - blue          RGB: 0, 0, 1
 %                       - green         RGB: 0, 1, 0
@@ -27,7 +28,8 @@ function varargout = colours(colourID)
 %       plt.defaults.colours('list');
 %   (2) Get cell array of rgb values for green and light green
 %       c = plt.defaults.colours({'green','lightgreen'});
-
+%   (3) Get cell array of rgb values for green and light green
+%       c = plt.defaults.colours({[0 1 0],[0.3 1 0.3]});
 % Author
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
 
@@ -67,12 +69,26 @@ rgb_values      = {[0, 0, 0],...
 
 %% 2. Display or return the RGB values of the list of colours
 if nargin==0
+    % no inputs provided, list colours
     pivottablerow(colour_names',cat(1,[],rgb_values{:}),'nanmean(x,1)');
     C   = [];
 else
-    [x,y]   = ismember(colourID,colour_names);
-	C       = rgb_values(y(x));
+    % input provided, input can be colour ID or RGB triplet
+    %   - check whether colourID or RGB triplet is provided
+    if ischar(colourID) || iscellstr(colourID)
+        % colour string name provided, search for RGB value
+        [x,y]   = ismember(colourID,colour_names);
+        C       = rgb_values(y(x));
+    else
+        % RGB triplet provided, simply return
+        if iscell(colourID)
+            C       = colourID;
+        else
+            C       = {colourID};
+        end;
+    end;
 end;
+
 
 if nargout>0
     varargout = {C};

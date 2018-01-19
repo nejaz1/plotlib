@@ -22,7 +22,8 @@ varargout = {cAlpha};
 function [cAlpha] = alphaHelper(c,alphaLvl)
 
 if isequal(c,repmat(c(1),1,3))          % different rules for gray scales
-    cAlpha      = c + [1 1 1] * alphaLvl;
+    cAlpha              = c + [1 1 1] * alphaLvl;
+    cAlpha(cAlpha>1)    = 1;
 else
     ci          = (1-alphaLvl)*max(c);
     ci          = c + ci;
