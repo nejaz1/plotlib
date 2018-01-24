@@ -57,7 +57,7 @@ colour_maps    = {'parula',...
                    'pink'};
 
 %% 2. Display or return the RGB values of the list of colours
-if nargin==0 || strcmp(numShades,'list')
+if nargin==0 || (isstr(numShades) & strcmp(numShades,'list'))
     % no inputs provided, list colormaps
     fprintf('Available colormaps: \n')
     for i = 1:length(colour_maps)
