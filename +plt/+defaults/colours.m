@@ -68,7 +68,7 @@ rgb_values      = {[0, 0, 0],...
                    [0.5, 0, 0]};
 
 %% 2. Display or return the RGB values of the list of colours
-if nargin==0 || (isstr(colourID) & strcmp(colourID,'list'))
+if nargin==0 || (length(colourID)==1 && strcmp(colourID,'list'))
     % no inputs provided, list colours
     pivottablerow(colour_names',cat(1,[],rgb_values{:}),'nanmean(x,1)');
     C   = [];
