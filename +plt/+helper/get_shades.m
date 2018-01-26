@@ -1,5 +1,8 @@
-function varargout = get_shades(numShades,colourmapID,order)
+function varargout = get_shades(numShades,colourmapID,order,limit)
 %% Description
+%
+%   varargout = get_shades(numShades,colourmapID,order)
+%
 %   Fetches a number of evenly spaced RGB colours from the supplied 
 %   colormapID. The RGB values are returned in a cell structure for use
 %   with sty.custom() to create custom colour values for plots.
@@ -29,6 +32,15 @@ function varargout = get_shades(numShades,colourmapID,order)
 %                   empty.
 %                       'increase'  (default)
 %                       'decrease'
+%   limit:        int specifying if the shades should be limited to those
+%                   that are not difficult to see (i.e. selects subset of
+%                   available colours from the colourmap that are not too  
+%                   bright/white). The shades are limited by the limit int.
+%                   Note that if limiting, the # of available colours is 
+%                   retricted by (64 - limit).
+%                       >0 - on 
+%                        0 - no limiting (default)
+%
 % Output
 %   C:      cell structure of RGB required colours 
 % Example: 
@@ -67,7 +79,19 @@ if nargin==0 || (length(numShades)==1 && strcmp(numShades,'list'))
 else
     % colourmap name provided
     cc = plt.defaults.colourmap(colourmapID);  % get RGB values from this colourmap 
-    cc = cc(1:floor(end/numShades):end,:); % find evenly spaced RGB values from this colourmap
+    numAvail = size(cc,1);
+    % check limiting of shades (1 or 0)
+    if ~exist('limit','var') || ~limit
+        idx = [1:floor(numAvail/numShades):numAvail]; % find evenly spaced RGB values from this colourmap
+    elseif limit
+        % limit the shades collected
+        idx = [1:floor((numAvail-limit)/numShades):numAvail-limit];
+        % check that the number of available shades (after limiting) can
+        % support the number of requested shades
+        if numShades > length(idx); error('Not enough shades available after restricting by limit.'); end
+    end
+    
+    cc = cc(idx,:); % harvest the shades
     
     % check ordering of shades ('increase' or 'decrease')
     if ~exist('order','var')
