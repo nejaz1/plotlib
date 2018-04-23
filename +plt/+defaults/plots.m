@@ -89,5 +89,10 @@ opt.drawline.edgecolor      = 'none';
 opt.drawline.plotfcn        = 'mean';
 opt.drawline.errorfcn       = 'stderr';
 
+%% draw shaded patch
+opt.patch.dir               = 'horz';
+opt.patch.facealpha         = 0.3;
+opt.patch.edgecolor         = 'none';
+
 varargout   = {opt};
 
