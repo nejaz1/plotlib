@@ -433,11 +433,12 @@ for c=1:numsplitcat
                 set (errhandle, 'FaceColor',fm.shadecolor,'EdgeColor','none','Facealpha',fm.transp);
                 uistack(errhandle,'down');
             end;
+            % set tag for error bars
+            set(errhandle,'tag',num2str(c));
         end;
         
-        % set tags for data and error bars
+        % set tags for data
         set(h(c),'tag',num2str(c));
-        set(errhandle,'tag',num2str(c));
     end;
 end;
 
