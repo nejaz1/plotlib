@@ -79,6 +79,7 @@ F.markersize        = 4;
 F.linscale          = 0;
 F.boxwidth          = 0.75;
 F.facealpha         = 0.1;
+F.plotfcn           = 'mean';
 gapwidth            = [1 0.7 0.5 0.5];
 F.xtickoff          = 1;
 split               = [];
@@ -98,7 +99,7 @@ while(c<=length(varargin))
 %         F.flip=1;c=c+1;
     case {'boxwidth','outliersymbol','whiskerlength','whiskerwidth','linecolor','linewidth',...
                 'fillcolor','mediancolor','meanwidth','notch','markersize','markertype',...
-                'markercolor','markerfill','plotall','facealpha','edgealpha'};
+                'markercolor','markerfill','plotall','facealpha','edgealpha','plotfcn'};
         eval(['F.',varargin{c} '=varargin{c+1};']);c=c+2;
     case 'style_twoblock'
         F.plotall=2;

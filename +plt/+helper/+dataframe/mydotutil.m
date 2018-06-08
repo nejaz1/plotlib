@@ -73,8 +73,13 @@ else
     yy2 = [med n1 q3 q3 n1 med n2 q1 q1 n2 med];
     xx3 = [lnm lnp];
 end
-yy3 = [med med];
-yy4 = [xmean xmean];
+% Set line to be plotted in median or mean of data.
+switch F.plotfcn
+    case 'mean'
+        yyy = [med med];
+    case 'median'
+        yyy = [xmean xmean];
+end
 
 % Determine if the boxes are vertical or horizontal.
 % The difference is the choice of x and y in the plot command.
@@ -91,7 +96,7 @@ if ~F.flip
         set(handle,'Marker',F.markertype,'SizeData',F.sizedata,'MarkerEdgeColor',F.markercolor,'MarkerFaceColor',F.markercolor,...
                    'MarkerFaceAlpha',F.facealpha,'MarkerEdgeAlpha',F.edgealpha,'tag',F.tag);                                    % symbols        
     end;
-    set(plot(xx3,yy4,'k-'),'Color','k','LineWidth',F.meanwidth,'tag',F.tag);                                          % mean line
+    set(plot(xx3,yyy,'k-'),'Color','k','LineWidth',F.meanwidth,'tag',F.tag);                                          % mean line
 else
     s       = abs(diff(xx3))/3;
     jitter  = xx + normrnd(0,s,1,length(xx));
@@ -105,6 +110,6 @@ else
         set(handle,'Marker',F.markertype,'SizeData',F.sizedata,'MarkerEdgeColor',F.markercolor,'MarkerFaceColor',F.markercolor,...
                    'MarkerFaceAlpha',F.facealpha,'MarkerEdgeAlpha',F.edgealpha,'tag',F.tag);                                    % symbols        
     end;
-    set(plot(yy4,xx3,'k-'),'Color','k','LineWidth',F.meanwidth,'tag',F.tag);                                          % mean line
+    set(plot(yyy,xx3,'k-'),'Color','k','LineWidth',F.meanwidth,'tag',F.tag);                                          % mean line
 end;
 
